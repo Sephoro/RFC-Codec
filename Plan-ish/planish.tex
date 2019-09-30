@@ -17,4 +17,12 @@
 \subsection*{Source}
 For the source, the initial plan is to use the random number generator Matlab built-in function to generate binary messages. If time permits the random number generator is intended to be replaced with an image as a source.
 
+\subsection*{Forward Error Correction (FEC)}
+The initial plan for FEC is to use BCH. A lot of literature has shown BCH to perform better than Reed Solomon in Raleigh fading channel. BCH is also relative less complex to implement compared to other FEC schemes such as Convolutional codes and LDPC. For this design a BCH(127,85) FEC scheme is chosen. This gives a code rate $r = 0.67$
+\\
+\\
+The above BCH is chosen in an attempt to balance out throughput and error correcting capability.
+\\
+\\
+If time allows concatenation of Convolutional codes with Reed Solomon will also be attempted. In this configuration the Convolutional code does most of the work, whilst Reed Solomon cleans up any errors left by  the Convolutional code. 
 \end{document}
