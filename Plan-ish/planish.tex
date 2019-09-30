@@ -25,4 +25,11 @@ The above BCH is chosen in an attempt to balance out throughput and error correc
 \\
 \\
 If time allows concatenation of Convolutional codes with Reed Solomon will also be attempted. In this configuration the Convolutional code does most of the work, whilst Reed Solomon cleans up any errors left by  the Convolutional code. 
+
+\subsection*{Modulation}
+For modulation Quadrature Amplitude Modulation (QAM) is chosen above all the other modulation schemes. M-QAM has been proven to be less susceptible to noise compared to all its counterparts. It's closest competitor, M-PSK, has also been proven to have lower data rates due to the nature of M-PSK's circular constellation compared to M-QAM's rectangular one.
+\\
+\\
+For this design 64-QAM is chosen. 64-QAM has been proven to be a robust QAM in literature, the scheme has lower BER for low SNR.
+
 \end{document}
