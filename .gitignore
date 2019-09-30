@@ -1,0 +1,4 @@
+# Ignore Latex Build Files
+*.aux
+*.log
+*.gz
