@@ -34,4 +34,20 @@ For this design 64-QAM is chosen. 64-QAM has been proven to be a robust QAM in l
 
 \subsection*{Pulse Shaping}
 To avoid using infinite bandwidth pulse shaping will be used to better shape the the symbol's waveforms. For this design the Raised Cosine filter will be used to shape the pulse. The Raised Cosine filter is of the Sinc filter family, however it is a better and a more suited version compared to the Sinc filter.
+
+\subsection*{MIMO}
+For MIMO, Space Time Block Codes (STBC) are going to be used. For multiple transmitting antennas, firstly the original symbols are sent instantaneously, then later their conjugates. All these symbols are Alamouti encoded at the time of transmitting.
+
+\subsection*{In summary}
+In summary this mini-plan present a codec design that achieves a Spectral Efficiency (SE) of 2.008  bits/Hz using the equation below.
+
+\begin{equation}
+SE = \frac{r\log_{2}M\alpha_{m}}{2}
+\end{equation}{} 
+\\
+This is assuming a MIMO coefficient ($\alpha_{m}$) of 1.
+
 \end{document}
+
+
+
