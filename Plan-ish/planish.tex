@@ -1,0 +1,53 @@
+\documentclass[]{article}
+
+%opening
+\title{Design of a Robust Codec for Fading Channel.}
+\author{Elias Sepuru}
+
+\begin{document}
+
+\maketitle
+
+%\begin{abstract}
+
+%\end{abstract}
+
+\section*{SYSTEM OVERVIEW}
+
+\subsection*{Source}
+For the source, the initial plan is to use the random number generator Matlab built-in function to generate binary messages. If time permits the random number generator is intended to be replaced with an image as a source.
+
+\subsection*{Forward Error Correction (FEC)}
+The initial plan for FEC is to use BCH. A lot of literature has shown BCH to perform better than Reed Solomon in Raleigh fading channel. BCH is also relative less complex to implement compared to other FEC schemes such as Convolutional codes and LDPC. For this design a BCH(127,85) FEC scheme is chosen. This gives a code rate $r = 0.67$
+\\
+\\
+The above BCH is chosen in an attempt to balance out throughput and error correcting capability.
+\\
+\\
+If time allows concatenation of Convolutional codes with Reed Solomon will also be attempted. In this configuration the Convolutional code does most of the work, whilst Reed Solomon cleans up any errors left by  the Convolutional code. 
+
+\subsection*{Modulation}
+For modulation Quadrature Amplitude Modulation (QAM) is chosen above all the other modulation schemes. M-QAM has been proven to be less susceptible to noise compared to all its counterparts. It's closest competitor, M-PSK, has also been proven to have lower data rates due to the nature of M-PSK's circular constellation compared to M-QAM's rectangular one.
+\\
+\\
+For this design 64-QAM is chosen. 64-QAM has been proven to be a robust QAM in literature, the scheme has lower BER for low SNR.
+
+\subsection*{Pulse Shaping}
+To avoid using infinite bandwidth pulse shaping will be used to better shape the the symbol's waveforms. For this design the Raised Cosine filter will be used to shape the pulse. The Raised Cosine filter is of the Sinc filter family, however it is a better and a more suited version compared to the Sinc filter.
+
+\subsection*{MIMO}
+For MIMO, Space Time Block Codes (STBC) are going to be used. For multiple transmitting antennas, firstly the original symbols are sent instantaneously, then later their conjugates. All these symbols are Alamouti encoded at the time of transmitting.
+
+\subsection*{In summary}
+In summary this mini-plan present a codec design that achieves a Spectral Efficiency (SE) of 2.008  bits/Hz using the equation below.
+
+\begin{equation}
+SE = \frac{r\log_{2}M\alpha_{m}}{2}
+\end{equation}{} 
+\\
+This is assuming a MIMO coefficient ($\alpha_{m}$) of 1.
+
+\end{document}
+
+
+
