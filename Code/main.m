@@ -39,29 +39,20 @@ disp(modTx)
 
 scatterplot(modTx,1,0,'r*')
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% THE REVERSE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % Lets Demodulate
 
 demodRx = qamdemod(modTx,M,'UnitAveragePower',true,...
                                'OutputType','bit');
 
-isequal(demodRx,encTx)
-            
+             
+% Lets Decode
 
-%{ 
-% Introduce noise
-
- noisycode = mod(encTx + randerr(1,N*4,1:4)',2);
- disp(noisycode')
- disp(newline)
- disp(isequal(noisycode,encTx));
-
-%}
- 
-% Decode
-%{
-msgRx = decoder(noisycode);
+msgRx = decoder(demodRx);
 disp(msgRx')
 disp(newline)
 
 isequal(msgTx,msgRx)
-%}
