@@ -20,7 +20,7 @@ function [encoder,decoder,r] = bchFEC(m,K)
         
         encoder = comm.BCHEncoder(N,K,G);
         
-    % And then BCH decoder 
+    % And then the BCH decoder 
         
         decoder = comm.BCHDecoder(N,K,G); 
   
