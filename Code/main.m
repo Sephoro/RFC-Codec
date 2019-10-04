@@ -4,8 +4,8 @@ clear
 % Foward Error Correction
 % BCH Encoder and Decoder
 
-M = 3;
-N = 2^M-1;                % Codeword length
+m = 3;
+N = 2^m-1;                % Codeword length
 K = 4;                    % Message length
 codeRate = K/N;           % Code rate of the FEC code
 t = bchnumerr(N,K);       % Get the error correcting capability
@@ -14,29 +14,43 @@ G = bchgenpoly(N,K);      % Get the generator Polynomial
 encoder = comm.BCHEncoder(N,K,G);	% BCH encoder
 decoder = comm.BCHDecoder(N,K,G);   % BCH decoder
 
+% Modulation
+% 16 QAM Modulator
+
+M = 16;                     % Size of signal constellation
+b = log2(M);                % Number of bits per symbol
+
 % Lets create the message
 
-nwords = 1;
-msgTx = [1;0;0;0];
-
+msgTx = randi([0 1],K*log2(M),1); % Make the message a factor the FEC and Modulation order
+print(msgTx')  
 
 % Lets Encode
 
-encTx = encoder(msgTx)';
-disp(encTx)
-disp(newline)
+encTx = encoder(msgTx);
+print(encTx')
 
-% Introduce noise
+% Lets Modulate 
 
-noisycode = mod(encTx + randerr(nwords,N,1:t),2)';
-disp(noisycode')
-disp(newline)
+modTx = qammod(encTx,M,'UnitAveragePower',true,...
+                            'InputType','bit');
+print(modTx)
 
+scatterplot(modTx,1,0,'r*')
 
-% Decode
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% THE REVERSE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-msgRx = decoder(noisycode);
-disp(msgRx')
-disp(newline)
+% Lets Demodulate
+
+demodRx = qamdemod(modTx,M,'UnitAveragePower',true,...
+                               'OutputType','bit');
+
+             
+% Lets Decode
+
+msgRx = decoder(demodRx);
+print(msgRx')
 
 isequal(msgTx,msgRx)
