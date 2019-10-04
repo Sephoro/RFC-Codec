@@ -31,6 +31,14 @@ encTx = encoder(msgTx);
 disp(encTx')
 disp(newline)
 
+% Lets Modulate 
+
+modTx = qammod(encTx,M,'UnitAveragePower',true,...
+                            'InputType','bit');
+disp(modTx)
+
+scatterplot(modTx,1,0,'r*')
+
 %{ 
 % Introduce noise
 
@@ -42,9 +50,10 @@ disp(newline)
 %}
  
 % Decode
-
+%{
 msgRx = decoder(noisycode);
 disp(msgRx')
 disp(newline)
 
 isequal(msgTx,msgRx)
+%}
