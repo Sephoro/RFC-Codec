@@ -23,19 +23,18 @@ b = log2(M);                % Number of bits per symbol
 % Lets create the message
 
 msgTx = randi([0 1],K*log2(M),1); % Make the message a factor the FEC and Modulation order
-disp(msgTx')  
+print(msgTx')  
 
 % Lets Encode
 
 encTx = encoder(msgTx);
-disp(encTx')
-disp(newline)
+print(encTx')
 
 % Lets Modulate 
 
 modTx = qammod(encTx,M,'UnitAveragePower',true,...
                             'InputType','bit');
-disp(modTx)
+print(modTx)
 
 scatterplot(modTx,1,0,'r*')
 
@@ -52,7 +51,6 @@ demodRx = qamdemod(modTx,M,'UnitAveragePower',true,...
 % Lets Decode
 
 msgRx = decoder(demodRx);
-disp(msgRx')
-disp(newline)
+print(msgRx')
 
 isequal(msgTx,msgRx)
