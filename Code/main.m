@@ -1,39 +1,42 @@
 clc
 clear
+
 % Foward Error Correction
 % BCH Encoder and Decoder
 
 M = 3;
-n = 2^M-1;   % Codeword length
-k = 4;       % Message length
-nwords = 1;  % Number of words to encode
+N = 2^M-1;                % Codeword length
+K = 4;                    % Message length
+codeRate = K/N;           % Code rate of the FEC code
+t = bchnumerr(N,K);       % Get the error correcting capability
+G = bchgenpoly(N,K);      % Get the generator Polynomial
 
+encoder = comm.BCHEncoder(N,K,G);	% BCH encoder
+decoder = comm.BCHDecoder(N,K,G);   % BCH decoder
 
 % Lets create the message
 
-% msgTx = gf(randi([0 1],nwords,k));
-msgTx = gf([1 0 1 1]);
-disp(msgTx);
+nwords = 1;
+msgTx = [1;0;0;0];
 
-% Error correcting capability
 
-t = bchnumerr(n,k);
+% Lets Encode
 
-disp(strcat('Error correcting capability ---> ', num2str(t)))
-
-% Encode
-
-enc = bchenc(msgTx,n,k,'beginning');
-disp(enc)
+encTx = encoder(msgTx)';
+disp(encTx)
+disp(newline)
 
 % Introduce noise
 
-noisycode = enc + randerr(nwords,n,1:t);
-disp(noisycode)
+noisycode = mod(encTx + randerr(nwords,N,1:t),2)';
+disp(noisycode')
+disp(newline)
+
 
 % Decode
 
-msgRx = bchdec(noisycode,n,k,'beginning');
-disp(msgRx)
+msgRx = decoder(noisycode);
+disp(msgRx')
+disp(newline)
 
 isequal(msgTx,msgRx)
