@@ -39,6 +39,14 @@ disp(modTx)
 
 scatterplot(modTx,1,0,'r*')
 
+% Lets Demodulate
+
+demodRx = qamdemod(modTx,M,'UnitAveragePower',true,...
+                               'OutputType','bit');
+
+isequal(demodRx,encTx)
+            
+
 %{ 
 % Introduce noise
 
