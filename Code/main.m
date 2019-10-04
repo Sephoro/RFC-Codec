@@ -5,14 +5,10 @@ clear
 % BCH Encoder and Decoder
 
 m = 3;
-N = 2^m-1;                % Codeword length
 K = 4;                    % Message length
-codeRate = K/N;           % Code rate of the FEC code
-t = bchnumerr(N,K);       % Get the error correcting capability
-G = bchgenpoly(N,K);      % Get the generator Polynomial
 
-encoder = comm.BCHEncoder(N,K,G);	% BCH encoder
-decoder = comm.BCHDecoder(N,K,G);   % BCH decoder
+[encoder,decoder,codeRate] = bchFEC(m,K);
+
 
 % Modulation
 % 16 QAM Modulator
