@@ -22,9 +22,9 @@ function [BER,S,NS] = computeBER(m,MessageLength,ModulationOrder,EbNo,NumBits)
     
         S  = zeros(NumBits*7*length(EbNo),1);
         NS = S;
+        count = 0;
     
-
-
+    
     for i = 1:length(EbNo)
 
         % Signal to Noise Ratio dB
@@ -33,7 +33,6 @@ function [BER,S,NS] = computeBER(m,MessageLength,ModulationOrder,EbNo,NumBits)
 
         errorStats = zeros(3,1); %Reset the errorStats variable
 
-        count = 0;
 
         while errorStats(3) < NumBits
             
