@@ -4,7 +4,7 @@ function [BER,S,NS] = computeBER(m,MessageLength,ModulationOrder,EbNo,NumBits)
      ...modulation configuration given EbNo. The functions returns the BER.
      
  
-    % Get the variables in a more farmiliar format
+    % Get the variables in a more familiar format
     
         k = MessageLength;
         M = ModulationOrder;
