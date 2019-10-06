@@ -13,17 +13,5 @@ NumBits = 12000;        % Number of bits to proces
     K = 4;                  % Message length
     M = 16;                 % 16 QAM Modulator
    
-   [BER,ModS,NoisyS] = computeBER(m,K,M,EbNo,NumBits);
-
-   % Plot the constellation
-   
-   s = scatterplot(NoisyS,1,0,'r.');
-   hold on
-   scatterplot(ModS,1,0,'g*',s)
-   grid on
-   
-   % Plot the BER vs EbNo graph
-   
-   figure
-   hold off
-   semilogy(EbNo, BER,'g')
+    [BER,ModS,NoisyS] = computeBER(m,K,M,EbNo,NumBits);
+    plots(EbNo,BER,ModS,NoisyS,m,K,M);
