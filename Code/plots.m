@@ -26,24 +26,24 @@ function [] = plots(EbNo, BER, ModS, NoisyS,m,k,M)
      end
        
      
-     hold off
+  
      % Plot the constellations
      
-        figure
-        s = scatterplot(NoisyS(1,:),1,0,'k.');  % Noisy Signal
-        title_ = strcat('Constellation of BCH(', num2str(2^m(1)-1) ...
-                         ,',', num2str(k), ') with ', num2str(M(1)), '-QAM');
-                     
-        title(title_);
-        hold on
-        
-        scatterplot(ModS(1,:),1,0,'g*',s)       % Original Signal
-        grid on
-        legend('Noisy Constellation', 'Original Constellation')
-        
-        hold off
-       
-        
-   
-   
+     for j = 1:size_
+         
+         s = scatterplot(NoisyS(:,j),1,0,'k.');  % Noisy Signal
+         title_ = strcat('Constellation of BCH(', num2str(2^m(j)-1) ...
+             ,',', num2str(k(j)), ') with ', num2str(M(j)), '-QAM');
+         
+         title(title_);
+         hold on
+         
+         scatterplot(ModS(:,j),1,0,'g*',s)       % Original Signal
+         grid on
+         legend('Noisy Constellation', 'Original Constellation')
+         
+         hold off
+         
+     end
+      
 end
