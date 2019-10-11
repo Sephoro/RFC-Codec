@@ -18,28 +18,22 @@ function [BER,S,NS] = computeBER(m,MessageLength,ModulationOrder,EbNo,NumBits)
 
         errorRate = comm.ErrorRate;
         
-    % Collecting stats 
-        tt = 2^m -1;
-        S  = zeros(NumBits*tt*length(EbNo),1);
-        NS = S;
-        count = 0;
+    % Collecting stats
     
-    
+        S  = [];
+        NS = [];
+        
     for i = 1:length(EbNo)
 
         % Signal to Noise Ratio dB
         
-        SNR = EbNo(i) + 10*log10(codeRate)+10*log10(log2(M)); 
+        SNR = EbNo(i) + 10*log10(codeRate) + 10*log10(log2(M)); 
 
         errorStats = zeros(3,1); %Reset the errorStats variable
 
 
         while errorStats(3) < NumBits
-            
-            % For plotting the constellations, don't mind
-            
-                count = count + 1; 
-            
+           
             % Lets generate the message
             
                 msgTx = randi([0 1],k*log2(M),1);
@@ -55,7 +49,7 @@ function [BER,S,NS] = computeBER(m,MessageLength,ModulationOrder,EbNo,NumBits)
                            
                 % For plotting the constellations, again don't mind it           
                     
-                    S(tt*count:(tt-1) + tt*count,1) = modTx;
+                    S = [ S; modTx];
                     
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %%%%%%%%%%%%%%%%%%%%%THE CHANNEL%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -66,7 +60,7 @@ function [BER,S,NS] = computeBER(m,MessageLength,ModulationOrder,EbNo,NumBits)
                 
                     % For plotting the constellations, again don't mind it 
 
-                        NS(tt*count:(tt-1) + tt*count,1) = noisyRx;
+                        NS = [NS;noisyRx];
 
 
             %%%%%%%%%%%%%%%%%%%%%%%%% END OF THE CHANNEL %%%%%%%%%%%%%%%%%%
