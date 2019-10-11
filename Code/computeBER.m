@@ -19,8 +19,8 @@ function [BER,S,NS] = computeBER(m,MessageLength,ModulationOrder,EbNo,NumBits)
         errorRate = comm.ErrorRate;
         
     % Collecting stats 
-    
-        S  = zeros(NumBits*7*length(EbNo),1);
+        tt = 2^m -1;
+        S  = zeros(NumBits*tt*length(EbNo),1);
         NS = S;
         count = 0;
     
@@ -55,7 +55,7 @@ function [BER,S,NS] = computeBER(m,MessageLength,ModulationOrder,EbNo,NumBits)
                            
                 % For plotting the constellations, again don't mind it           
                     
-                    S(7*count:6 + 7*count,1) = modTx;
+                    S(tt*count:(tt-1) + tt*count,1) = modTx;
                     
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %%%%%%%%%%%%%%%%%%%%%THE CHANNEL%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -66,7 +66,7 @@ function [BER,S,NS] = computeBER(m,MessageLength,ModulationOrder,EbNo,NumBits)
                 
                     % For plotting the constellations, again don't mind it 
 
-                        NS(7*count:6 + 7*count,1) = noisyRx;
+                        NS(tt*count:(tt-1) + tt*count,1) = noisyRx;
 
 
             %%%%%%%%%%%%%%%%%%%%%%%%% END OF THE CHANNEL %%%%%%%%%%%%%%%%%%
