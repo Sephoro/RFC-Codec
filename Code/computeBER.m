@@ -1,4 +1,4 @@
-function [BER,S,NS] = computeBER(m,MessageLength,ModulationOrder,EbNo,NumBits)
+function [BER,S,NS] = computeBER(m,MessageLength,ModulationOrder,TxAntennas,RxAntennas,EbNo,NumBits)
 
      %This function computes the BER of any combination of BCH FEC and QAM
      ...modulation configuration given EbNo. The functions returns the BER.
@@ -8,6 +8,9 @@ function [BER,S,NS] = computeBER(m,MessageLength,ModulationOrder,EbNo,NumBits)
     
         k = MessageLength;
         M = ModulationOrder;
+        Nt = TxAntennas;
+        Nr = RxAntennas;
+        Ns = (2^m - 1)*Nt;  % Number of symbols per frame
         BER = zeros(1, length(EbNo));
 
     % Get the BCH encoder and decoder
@@ -34,9 +37,10 @@ function [BER,S,NS] = computeBER(m,MessageLength,ModulationOrder,EbNo,NumBits)
 
         while errorStats(3) < NumBits
            
-            % Lets generate the message
+            % Lets generate the message, the message is a factor of the FEC
+            ..., Modulation Scheme & Number of transmit antennas.
             
-                msgTx = randi([0 1],k*log2(M),1);
+                msgTx = randi([0 1],k*log2(M)*Nt,1);
             
             % Lets encode the message
             
@@ -53,28 +57,37 @@ function [BER,S,NS] = computeBER(m,MessageLength,ModulationOrder,EbNo,NumBits)
                     
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %%%%%%%%%%%%%%%%%%%%%THE CHANNEL%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-                
-                % Add AWG Noise
-                    
-                    noisyRx = awgn(modTx,SNR); 
-                
-                    % For plotting the constellations, again don't mind it 
-
-                        NS = [NS;noisyRx];
-
-
-            %%%%%%%%%%%%%%%%%%%%%%%%% END OF THE CHANNEL %%%%%%%%%%%%%%%%%%
-            %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-         
             
-            %                      THE OTHER SIDE...
-     
-         
-
-            % Lets Demodulate
-
-                demodRx = qamdemod(noisyRx,M,'UnitAveragePower',true,...
-                                   'OutputType','bit');
+            demodRx = [];
+            
+            for j = 1:Nt:Ns
+               
+                % Send Nt Symbols at a time
+               
+                % Add AWG Noise
+                Tx = modTx(j:j+1);
+                noisyRx = awgn(Tx,SNR);
+                
+                % For plotting the constellations, again don't mind it
+                
+                NS = [NS;noisyRx];
+                
+                
+                %%%%%%%%%%%%%%%%%%%%%%%%% END OF THE CHANNEL %%%%%%%%%%%%%%%%%%
+                %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                
+                
+                %                      THE OTHER SIDE...
+                
+                
+                
+                % Lets Demodulate
+                
+                Rx = qamdemod(noisyRx,M,'UnitAveragePower',true,...
+                    'OutputType','bit');
+                
+                demodRx = [demodRx;Rx];
+            end
             
             % Now lets Decode the demodulated signal
 
@@ -83,7 +96,7 @@ function [BER,S,NS] = computeBER(m,MessageLength,ModulationOrder,EbNo,NumBits)
                 
             % Compute the errors due to the channel
           
-                errorStats = errorRate(msgTx,msgRx);
+               errorStats = errorRate(msgTx,msgRx);
             
         end
         
