@@ -26,6 +26,8 @@ function [BER,S,NS] = computeBER(m,MessageLength,ModulationOrder,TxAntennas,RxAn
         S  = [];
         NS = [];
         
+     H = 1/sqrt(2)*(randn(Nr,Nt)+1i*(randn(Nr,Nt)))
+        
     for i = 1:length(EbNo)
 
         % Signal to Noise Ratio dB
@@ -63,10 +65,15 @@ function [BER,S,NS] = computeBER(m,MessageLength,ModulationOrder,TxAntennas,RxAn
             for j = 1:Nt:Ns
                
                 % Send Nt Symbols at a time
-               
+              
+                Tx = modTx(j:j+1)
+                
+                % Apply Raleigh Fading Coeffecients
+                
+                YTx = H*Tx
+                
                 % Add AWG Noise
-                Tx = modTx(j:j+1);
-                noisyRx = awgn(Tx,SNR);
+                noisyRx = awgn(YTx,SNR)
                 
                 % For plotting the constellations, again don't mind it
                 
@@ -84,7 +91,7 @@ function [BER,S,NS] = computeBER(m,MessageLength,ModulationOrder,TxAntennas,RxAn
                 % Lets Demodulate
                 
                 Rx = qamdemod(noisyRx,M,'UnitAveragePower',true,...
-                    'OutputType','bit');
+                    'OutputType','bit')
                 
                 demodRx = [demodRx;Rx];
             end
