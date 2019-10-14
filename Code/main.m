@@ -4,7 +4,7 @@ close all
 
 
 EbNo = 0:2:25;              % Signal to Noise Ratio
-NumBits = 56;         % Number of bits to proces
+NumBits = 56*56;         % Number of bits to proces
 C = 1;                      % Number of comparisons
 Nr = 2;                     % Number of Transmit antennas
 Nt = 2;                     % Number of Receive antennas
@@ -15,15 +15,15 @@ BER = zeros(C, length(EbNo));
 m = zeros(C);
 K = m;
 M = m;
-Q = 16;
+Q = 64;
 
 %% BCH(7,4) -- 16 QAM
     
-    m(1) = 3;                  % Galois field power
-    K(1) = 4;                  % Message length
+    m(1) = 7;                  % Galois field power
+    K(1) = 85;                  % Message length
     M(1) = Q;                 % 16 QAM Modulator
    
-    [BER(1,:),ModS,NoisyS] = computeBER(m(1),K(1),M(1),Nt,Nr,EbNo,NumBits);
+    [BER(1,:),BER2,ModS,NoisyS,HH,RX] = computeBER(m(1),K(1),M(1),Nt,Nr,EbNo,NumBits);
     
 % %% BCH(127,113) -- 64 QAM
 %     
@@ -43,8 +43,10 @@ Q = 16;
 %     [BER(3,:),ModS3,NoisyS3] = computeBER(m(3),K(3),M(3),EbNo,NumBits);
     
     
- BERCurve(EbNo,BER,m,K,M);
+ BERCurve(EbNo,[BER;BER2],[m m],[K K],[M M]); 
+ Constellation(ModS,HH,m,K,M);
  Constellation(ModS,NoisyS,m,K,M);
+ Constellation(ModS,RX,m,K,M);
  
  
     

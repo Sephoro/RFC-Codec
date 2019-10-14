@@ -1,4 +1,4 @@
-function [BER,S,NS] = computeBER(m,MessageLength,ModulationOrder,TxAntennas,RxAntennas,EbNo,NumBits)
+function [BER,BER2,S,NS,HH,RX] = computeBER(m,MessageLength,ModulationOrder,TxAntennas,RxAntennas,EbNo,NumBits)
 
      %This function computes the BER of any combination of BCH FEC and QAM
      ...modulation configuration given EbNo. The functions returns the BER.
@@ -12,6 +12,7 @@ function [BER,S,NS] = computeBER(m,MessageLength,ModulationOrder,TxAntennas,RxAn
         Nr = RxAntennas;
         Ns = (2^m - 1)*Nt;  % Number of symbols per frame
         BER = zeros(1, length(EbNo));
+        BER2 = zeros(1, length(EbNo));
 
     % Get the BCH encoder and decoder
 
@@ -20,13 +21,16 @@ function [BER,S,NS] = computeBER(m,MessageLength,ModulationOrder,TxAntennas,RxAn
     % Error Collecor
 
         errorRate = comm.ErrorRate;
+        err2 = comm.ErrorRate;
         
     % Collecting stats
     
         S  = [];
         NS = [];
+        HH = [];
+        RX = [];
         
-     H = 1/sqrt(2)*(randn(Nr,Nt)+1i*(randn(Nr,Nt)))
+     H = 1/sqrt(2)*(randn(Nr,Nt)+1i*(randn(Nr,Nt)));
         
     for i = 1:length(EbNo)
 
@@ -35,6 +39,7 @@ function [BER,S,NS] = computeBER(m,MessageLength,ModulationOrder,TxAntennas,RxAn
         SNR = EbNo(i) + 10*log10(codeRate) + 10*log10(log2(M)); 
 
         errorStats = zeros(3,1); %Reset the errorStats variable
+        errs = zeros(3,1); %Reset the errorStats variable
 
 
         while errorStats(3) < NumBits
@@ -55,8 +60,17 @@ function [BER,S,NS] = computeBER(m,MessageLength,ModulationOrder,TxAntennas,RxAn
                            
                 % For plotting the constellations, again don't mind it           
                     
-                    S = [ S; modTx];
-                    
+                  S = [S; modTx];
+                  
+                 % Temp
+                 nn = awgn(modTx,SNR);
+                 
+                 qq = qamdemod(nn,M,'UnitAveragePower',true,...
+                    'OutputType','bit');
+                 ee = decoder(qq);
+                 errs = err2(ee,msgTx);
+                
+               
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %%%%%%%%%%%%%%%%%%%%%THE CHANNEL%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             
@@ -66,14 +80,17 @@ function [BER,S,NS] = computeBER(m,MessageLength,ModulationOrder,TxAntennas,RxAn
                
                 % Send Nt Symbols at a time
               
-                Tx = modTx(j:j+1)
+                Tx = modTx(j:j+1);
                 
                 % Apply Raleigh Fading Coeffecients
                 
-                YTx = H*Tx
+                YTx = H*Tx;
+                
+                HH = [HH;YTx];
                 
                 % Add AWG Noise
-                noisyRx = awgn(YTx,SNR)
+                noisyRx = awgn(YTx,SNR);
+                
                 
                 % For plotting the constellations, again don't mind it
                 
@@ -86,12 +103,16 @@ function [BER,S,NS] = computeBER(m,MessageLength,ModulationOrder,TxAntennas,RxAn
                 
                 %                      THE OTHER SIDE...
                 
+                % Reverse the effect of Raleigh Fading
                 
+                RxHat = inv(H'*H)*H'*noisyRx;
+                
+                RX = [RX; RxHat];
                 
                 % Lets Demodulate
                 
-                Rx = qamdemod(noisyRx,M,'UnitAveragePower',true,...
-                    'OutputType','bit')
+                Rx = qamdemod(RxHat,M,'UnitAveragePower',true,...
+                    'OutputType','bit');
                 
                 demodRx = [demodRx;Rx];
             end
@@ -110,10 +131,12 @@ function [BER,S,NS] = computeBER(m,MessageLength,ModulationOrder,TxAntennas,RxAn
         % Get the BER for this point of Eb/No
             
             BER(i) = errorStats(1);
+            BER2(i) = errs(1);
         
         % House Keeping
             
             reset(errorRate)
+            reset(err2)
 
     end
 
