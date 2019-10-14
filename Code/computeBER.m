@@ -10,13 +10,19 @@ function [BER,BER2,S,NS,HH,RX] = computeBER(m,MessageLength,ModulationOrder,TxAn
         M = ModulationOrder;
         Nt = TxAntennas;
         Nr = RxAntennas;
-        Ns = (2^m - 1)*Nt;  % Number of symbols per frame
+        Ns = (2^m - 1)*Nt;  % Number of symbols per frame 
         BER = zeros(1, length(EbNo));
         BER2 = zeros(1, length(EbNo));
 
     % Get the BCH encoder and decoder
 
         [encoder,decoder,codeRate] = bchFEC(m,k);
+        
+   % H interval
+   
+        Rb = 10e6;                       % Bit rate = 10 Mb/s
+        Rb_prime = Rb/(codeRate*log2(M)); % Bit rate due to FEC and Modulation
+        Symbols = floor(Rb_prime*1e-3);          %  Number of bits before changing H
 
     % Error Collecor
 
@@ -31,6 +37,7 @@ function [BER,BER2,S,NS,HH,RX] = computeBER(m,MessageLength,ModulationOrder,TxAn
         RX = [];
         
      H = 1/sqrt(2)*(randn(Nr,Nt)+1i*(randn(Nr,Nt)));
+     symCount = 0;
         
     for i = 1:length(EbNo)
 
@@ -115,6 +122,14 @@ function [BER,BER2,S,NS,HH,RX] = computeBER(m,MessageLength,ModulationOrder,TxAn
                     'OutputType','bit');
                 
                 demodRx = [demodRx;Rx];
+                
+                symCount = symCount + 2;
+                
+                if ~mod(symCount, Symbols) || ~mod(symCount-1, Symbols) 
+                  
+                     H = 1/sqrt(2)*(randn(Nr,Nt)+1i*(randn(Nr,Nt)));
+                    
+                end
             end
             
             % Now lets Decode the demodulated signal

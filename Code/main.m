@@ -4,7 +4,7 @@ close all
 
 
 EbNo = 0:2:25;              % Signal to Noise Ratio
-NumBits = 56*56;         % Number of bits to proces
+NumBits = 56*56*10;            % Number of bits to proces
 C = 1;                      % Number of comparisons
 Nr = 2;                     % Number of Transmit antennas
 Nt = 2;                     % Number of Receive antennas
