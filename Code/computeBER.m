@@ -95,10 +95,17 @@ function [BER,BERawgn,S,NS,HH,RX] = computeBER(m,MessageLength,ModulationOrder,T
                 
                     NS = [NS;noisyRx];  % Constellation collector
                 
-      
+                % Zero Forcing reciever
+                
+                %W = inv(H'*H)*H';
+                
+                % MMSE reciver 
+                
+                W = inv(H'*H + (1/(10^(0.1*SNR)))*eye(Nr,Nt))*H';
+                
                 % Reverse the effect of Raleigh Fading
                 
-                RxHat = inv(H'*H)*H'*noisyRx;
+                RxHat = W*noisyRx;
                 
                      RX = [RX; RxHat];  % Constellation collector
                 
