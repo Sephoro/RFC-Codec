@@ -1,4 +1,4 @@
-function [BER,BER2,S,NS,HH,RX] = computeBER(m,MessageLength,ModulationOrder,TxAntennas,RxAntennas,EbNo,NumBits)
+function [BER,BERawgn,S,NS,HH,RX] = computeBER(m,MessageLength,ModulationOrder,TxAntennas,RxAntennas,EbNo,NumBits)
 
      %This function computes the BER of any combination of BCH FEC and QAM
      ...modulation configuration given EbNo. The functions returns the BER.
@@ -10,34 +10,35 @@ function [BER,BER2,S,NS,HH,RX] = computeBER(m,MessageLength,ModulationOrder,TxAn
         M = ModulationOrder;
         Nt = TxAntennas;
         Nr = RxAntennas;
-        Ns = (2^m - 1)*Nt;  % Number of symbols per frame 
-        BER = zeros(1, length(EbNo));
-        BER2 = zeros(1, length(EbNo));
+        Ns = (2^m - 1)*Nt;                  % Number of symbols per frame 
+        BER = zeros(1, length(EbNo));       % BER for MIMO with RFC
+        BERawgn = zeros(1, length(EbNo));   % BER for AWGN with no RFC and MIMO
 
     % Get the BCH encoder and decoder
 
         [encoder,decoder,codeRate] = bchFEC(m,k);
-        
-   % H interval
-   
-        Rb = 10e6;                       % Bit rate = 10 Mb/s
-        Rb_prime = Rb/(codeRate*log2(M)); % Bit rate due to FEC and Modulation
-        Symbols = floor(Rb_prime*1e-3);          %  Number of bits before changing H
-
+       
     % Error Collecor
 
         errorRate = comm.ErrorRate;
-        err2 = comm.ErrorRate;
+        awgnErrorStats = comm.ErrorRate;
+        
+    % Raleigh Fading Channel
+    
+        H = 1/sqrt(2)*(randn(Nr,Nt)+1i*(randn(Nr,Nt)));     % The main player ;)
+    
+        Rb = 10e6;                                          % Bit rate = 10 Mb/s
+        Rb_prime = Rb/(codeRate*log2(M));                   % Bit rate due to FEC and Modulation
+        Symbols = floor(Rb_prime*1e-3);                     % Number of symnols before changing H
+        symCount = 0;                                       % Counts the number of symbols to change H
+
         
     % Collecting stats
     
-        S  = [];
-        NS = [];
+        S  = []; %  Original Constellation
+        NS = []; %  Noisy Constellation
         HH = [];
         RX = [];
-        
-     H = 1/sqrt(2)*(randn(Nr,Nt)+1i*(randn(Nr,Nt)));
-     symCount = 0;
         
     for i = 1:length(EbNo)
 
@@ -45,8 +46,8 @@ function [BER,BER2,S,NS,HH,RX] = computeBER(m,MessageLength,ModulationOrder,TxAn
         
         SNR = EbNo(i) + 10*log10(codeRate) + 10*log10(log2(M)); 
 
-        errorStats = zeros(3,1); %Reset the errorStats variable
-        errs = zeros(3,1); %Reset the errorStats variable
+        errorStats = zeros(3,1); % Reset the errorStats variable
+        awgnErrors = zeros(3,1); % Reset the awgnErrors variable
 
 
         while errorStats(3) < NumBits
@@ -64,24 +65,17 @@ function [BER,BER2,S,NS,HH,RX] = computeBER(m,MessageLength,ModulationOrder,TxAn
 
                 modTx = qammod(encTx,M,'UnitAveragePower',true,...
                                'InputType','bit');
-                           
-                % For plotting the constellations, again don't mind it           
-                    
-                  S = [S; modTx];
+                S = [S; modTx]; % Constellation collector
                   
-                 % Temp
-                 nn = awgn(modTx,SNR);
-                 
-                 qq = qamdemod(nn,M,'UnitAveragePower',true,...
-                    'OutputType','bit');
-                 ee = decoder(qq);
-                 errs = err2(ee,msgTx);
-                
+            % Collect the errors for only AWGN
                
-            %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            %%%%%%%%%%%%%%%%%%%%%THE CHANNEL%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                awgnErrors = awgnBER(msgTx,modTx,SNR,decoder,awgnErrorStats,M);
+               
+          
+            % The MVP: MIMO and Raleigh Fading ahead .....
             
-            demodRx = [];
+            
+            demodRx = []; % To store received symbols
             
             for j = 1:Nt:Ns
                
@@ -93,37 +87,36 @@ function [BER,BER2,S,NS,HH,RX] = computeBER(m,MessageLength,ModulationOrder,TxAn
                 
                 YTx = H*Tx;
                 
-                HH = [HH;YTx];
+                    HH = [HH;YTx];      % Constellation collector
                 
                 % Add AWG Noise
+                
                 noisyRx = awgn(YTx,SNR);
                 
+                    NS = [NS;noisyRx];  % Constellation collector
                 
-                % For plotting the constellations, again don't mind it
-                
-                NS = [NS;noisyRx];
-                
-                
-                %%%%%%%%%%%%%%%%%%%%%%%%% END OF THE CHANNEL %%%%%%%%%%%%%%%%%%
-                %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-                
-                
-                %                      THE OTHER SIDE...
-                
+      
                 % Reverse the effect of Raleigh Fading
                 
                 RxHat = inv(H'*H)*H'*noisyRx;
                 
-                RX = [RX; RxHat];
+                     RX = [RX; RxHat];  % Constellation collector
                 
                 % Lets Demodulate
                 
                 Rx = qamdemod(RxHat,M,'UnitAveragePower',true,...
                     'OutputType','bit');
                 
-                demodRx = [demodRx;Rx];
+                % Store the demodulated symbols for decoding later
                 
-                symCount = symCount + 2;
+                demodRx = [demodRx;Rx]; 
+                
+                
+                % Count the number of symbols sent
+                
+                symCount = symCount + Nt;
+                
+                % Change H for every 1 ms (Calculation above!)
                 
                 if ~mod(symCount, Symbols) || ~mod(symCount-1, Symbols) 
                   
@@ -146,12 +139,12 @@ function [BER,BER2,S,NS,HH,RX] = computeBER(m,MessageLength,ModulationOrder,TxAn
         % Get the BER for this point of Eb/No
             
             BER(i) = errorStats(1);
-            BER2(i) = errs(1);
+            BERawgn(i) = awgnErrors(1);
         
         % House Keeping
             
             reset(errorRate)
-            reset(err2)
+            reset(awgnErrorStats)
 
     end
 
