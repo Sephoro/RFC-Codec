@@ -74,8 +74,18 @@ function [BER,BERawgn,S,NS,HH,RX] = computeBER(m,MessageLength,ModulationOrder,T
           
             % The MVP: MIMO and Raleigh Fading ahead .....
             
-                [demodRx,H,symCount,rRX] = MIMO(modTx,Nt,Nr,Ns,SNR,M,H,symCount,Symbols,"MMSE");
+                [demodRx,rRX] = MIMO(modTx,Nt,Nr,Ns,SNR,M,H,"MMSE");
+                
                     RX = [RX;rRX];
+                    
+                symCount = symCount + Ns;
+                
+                if symCount >= Symbols
+                    
+                    H = 1/sqrt(2)*(randn(Nr,Nt)+1i*(randn(Nr,Nt)));
+                    symCount = 0;
+                end
+                
             % Now lets Decode the demodulated signal
 
                 msgRx = decoder(demodRx);

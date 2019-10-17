@@ -1,4 +1,4 @@
-function [demodRx,H,symCount,RX] = MIMO(modTx,Nt,Nr,Ns,SNR,M,H,symCount,Symbols,receiver)
+function [demodRx,RX] = MIMO(modTx,Nt,Nr,Ns,SNR,M,H,receiver)
 
 
     % This function performs MIMO under RFC
@@ -61,15 +61,15 @@ function [demodRx,H,symCount,RX] = MIMO(modTx,Nt,Nr,Ns,SNR,M,H,symCount,Symbols,
 
         % Count the number of symbols sent
 
-        symCount = symCount + Nt;
+        % symCount = symCount + Nt;
 
         % Change H for every 1 ms (Calculation above!)
 
-        if ~mod(symCount, Symbols) || ~mod(symCount-1, Symbols)
-            symCount
-            H = 1/sqrt(2)*(randn(Nr,Nt)+1i*(randn(Nr,Nt)))
+        %   if ~mod(symCount, Symbols) || ~mod(symCount-1, Symbols)
+            
+        %       H = 1/sqrt(2)*(randn(Nr,Nt)+1i*(randn(Nr,Nt)));
 
-        end
+        %   end
     end
 
 
