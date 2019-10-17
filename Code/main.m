@@ -4,7 +4,7 @@ close all
 
 
 EbNo = 0:2:25;              % Signal to Noise Ratio
-NumBits = 56*56;            % Number of bits to proces
+NumBits = 56*56*10;         % Number of bits to proces
 C = 1;                      % Number of comparisons
 Nr = 2;                     % Number of Transmit antennas
 Nt = 2;                     % Number of Receive antennas
@@ -44,8 +44,8 @@ Q = 64;
     
     
  BERCurve(EbNo,[BER;BER2],[m m],[K K],[M M]); 
- Constellation(ModS,HH,m,K,M);
- Constellation(ModS,NoisyS,m,K,M);
+ %Constellation(ModS,HH,m,K,M);
+% Constellation(ModS,NoisyS,m,K,M);
  Constellation(ModS,RX,m,K,M);
  
  

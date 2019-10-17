@@ -74,64 +74,8 @@ function [BER,BERawgn,S,NS,HH,RX] = computeBER(m,MessageLength,ModulationOrder,T
           
             % The MVP: MIMO and Raleigh Fading ahead .....
             
-            
-            demodRx = []; % To store received symbols
-            
-            for j = 1:Nt:Ns
-               
-                % Send Nt Symbols at a time
-              
-                Tx = modTx(j:j+1);
-                
-                % Apply Raleigh Fading Coeffecients
-                
-                YTx = H*Tx;
-                
-                    HH = [HH;YTx];      % Constellation collector
-                
-                % Add AWG Noise
-                
-                noisyRx = awgn(YTx,SNR);
-                
-                    NS = [NS;noisyRx];  % Constellation collector
-                
-                % Zero Forcing reciever
-                
-                %W = inv(H'*H)*H';
-                
-                % MMSE reciver 
-                
-                W = inv(H'*H + (1/(10^(0.1*SNR)))*eye(Nr,Nt))*H';
-                
-                % Reverse the effect of Raleigh Fading
-                
-                RxHat = W*noisyRx;
-                
-                     RX = [RX; RxHat];  % Constellation collector
-                
-                % Lets Demodulate
-                
-                Rx = qamdemod(RxHat,M,'UnitAveragePower',true,...
-                    'OutputType','bit');
-                
-                % Store the demodulated symbols for decoding later
-                
-                demodRx = [demodRx;Rx]; 
-                
-                
-                % Count the number of symbols sent
-                
-                symCount = symCount + Nt;
-                
-                % Change H for every 1 ms (Calculation above!)
-                
-                if ~mod(symCount, Symbols) || ~mod(symCount-1, Symbols) 
-                  
-                     H = 1/sqrt(2)*(randn(Nr,Nt)+1i*(randn(Nr,Nt)));
-                    
-                end
-            end
-            
+                [demodRx,H,symCount,rRX] = MIMO(modTx,Nt,Nr,Ns,SNR,M,H,symCount,Symbols,"MMSE");
+                    RX = [RX;rRX];
             % Now lets Decode the demodulated signal
 
                 msgRx = decoder(demodRx);
