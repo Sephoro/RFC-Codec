@@ -10,7 +10,7 @@ function [demodRx,RX] = MIMO(modTx,Nt,Nr,Ns,SNR,M,H,receiver)
 
         % Send Nt Symbols at a time
 
-        Tx = modTx(j:j+1);
+        Tx = modTx(j:j+(Nt-1));
 
         % Apply Raleigh Fading Coeffecients
 
@@ -38,7 +38,7 @@ function [demodRx,RX] = MIMO(modTx,Nt,Nr,Ns,SNR,M,H,receiver)
                 
                 % MMSE reciver
                 
-                W = inv(H'*H + (1/(10^(0.1*SNR)))*eye(Nr,Nt))*H';
+                W = inv(H'*H + (1/(10^(0.1*SNR)))*eye(Nt))*H';
             end
 
        

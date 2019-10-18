@@ -11,7 +11,7 @@ function [BER,BERawgn,S,NS,RX2,RX] = computeBER(m,MessageLength,ModulationOrder,
         Nt = TxAntennas;
         Nr = RxAntennas;
         Ns = (2^m - 1)*Nt;                  % Number of symbols per frame 
-        BER = zeros(2, length(EbNo));       % BER for MIMO with RFC
+        BER = zeros(1, length(EbNo));       % BER for MIMO with RFC
         BERawgn = zeros(1, length(EbNo));   % BER for AWGN with no RFC and MIMO
 
     % Get the BCH encoder and decoder
@@ -21,12 +21,12 @@ function [BER,BERawgn,S,NS,RX2,RX] = computeBER(m,MessageLength,ModulationOrder,
     % Error Collecor
 
         errorRate = comm.ErrorRate;
-        errorRate2 = comm.ErrorRate;
+        %errorRate2 = comm.ErrorRate;
         awgnErrorStats = comm.ErrorRate;
         
     % Raleigh Fading Channel
     
-        H = 1/sqrt(2)*(randn(Nr,Nt)+1i*(randn(Nr,Nt)));     % The main player ;)
+        H = 1/sqrt(2)*(randn(Nr,Nt)+1i*(randn(Nr,Nt))) ;    % The main player ;)
     
         Rb = 10e6;                                          % Bit rate = 10 Mb/s
         Rb_prime = Rb/(codeRate*log2(M));                   % Bit rate due to FEC and Modulation
@@ -48,7 +48,7 @@ function [BER,BERawgn,S,NS,RX2,RX] = computeBER(m,MessageLength,ModulationOrder,
         SNR = EbNo(i) + 10*log10(codeRate) + 10*log10(log2(M)); 
 
         errorStats = zeros(3,1); % Reset the errorStats variable
-        errorStats2 = zeros(3,1); % Reset the errorStats variable
+        % errorStats2 = zeros(3,1); % Reset the errorStats variable
         awgnErrors = zeros(3,1); % Reset the awgnErrors variable
 
 
@@ -80,9 +80,9 @@ function [BER,BERawgn,S,NS,RX2,RX] = computeBER(m,MessageLength,ModulationOrder,
                 
                      RX = [RX;rRX];
                 
-                [demodRx2,rRX2] = MIMO(modTx,Nt,Nr,Ns,SNR,M,H,"ZF");
+                %[demodRx2,rRX2] = MIMO(modTx,Nt,Nr,Ns,SNR,M,H,"ZF");
                 
-                     RX2 = [RX2;rRX2];
+                %     RX2 = [RX2;rRX2];
                 
                    
                     
@@ -97,24 +97,25 @@ function [BER,BERawgn,S,NS,RX2,RX] = computeBER(m,MessageLength,ModulationOrder,
             % Now lets Decode the demodulated signal
 
                 msgRx = decoder(demodRx);
-                msgRx2 = decoder(demodRx2);
+                % msgRx2 = decoder(demodRx2);
                 
                 
             % Compute the errors due to the channel
           
                errorStats = errorRate(msgTx,msgRx);
-               errorStats2 = errorRate2(msgTx,msgRx2);
+               % errorStats2 = errorRate2(msgTx,msgRx2);
             
         end
         
         % Get the BER for this point of Eb/No
             
             BER(1,i) = errorStats(1);
-            BER(2,i) = errorStats2(1);
+            %BER(2,i) = errorStats2(1);
             BERawgn(i) = awgnErrors(1);
         
         % House Keeping
             
+            %reset(errorRate2)
             reset(errorRate)
             reset(awgnErrorStats)
 

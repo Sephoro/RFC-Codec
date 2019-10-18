@@ -2,7 +2,7 @@ function [] = BERCurve(EbNo, BER,m,k,M)
 
      % This function plots the BER vs EbNo graph
      
-     C = ["g-*","r-p","k-s",'b','c', 'y']; % color schemes
+     C = ["g-*","r-p","k-s","b-o","c-+", "y-h"]; % color schemes
      legend__ = [];                  % For the legends
    
      [size_,~] = size(BER);
