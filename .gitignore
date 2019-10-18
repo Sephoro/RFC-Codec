@@ -2,6 +2,7 @@
 *.aux
 *.log
 *.gz
+*.toc
 
 # Ignore Matlab temp files
 *.m~

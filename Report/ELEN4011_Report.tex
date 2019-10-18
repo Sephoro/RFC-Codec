@@ -1,10 +1,22 @@
 \documentclass[11pt]{report}
 \usepackage{graphicx}
 
+\renewcommand{\thesection}{\arabic{section}}
+\usepackage{titlesec}
 
 \begin{document}
 		\input{title_page.tex}
 \begin{abstract}
 \end{abstract}
 
+\tableofcontents
+
+\newpage
+
+\section{Introduction}
+The aim of modern and next-generation wireless communication systems is to provide communication services with high data rates and low probability of error, this also helps in catering for numerous requests from various applications and devices \cite{36,14,49}. The reliability of such communication systems is often hindered by strong shadowing, intersymbol interference (ISI) and attenuation due to the destructive addition of multipaths propagation in the transmission channel \cite{36,32}. Such a channel is often accurately modeled using a Rayleigh model known as the Rayleigh Fading Channel (RFC) \cite{32}. To combat the effect of fading and scattering due to RFC, several methods have been proposed. Methods such as Selection Diversity, Equal Gain Combining and Maximal Ratio Combining were proposed. However the methods proved to be inefficient and ineffective in dealing with the requirement of high data rates as per modern communication needs \cite{B8}. This lead to the development of Multiple-Input Multiple-Output (MIMO) systems. MIMO leverages off the multipath characteristic of the Rayleigh Fading Channel. It transmits data over the multiple paths, therefore increasing the amount of information the communication system carries \cite{50}. MIMO uses multiple transmit and receive antennas to significantly increase the data throughput and link range without additional bandwidth or transmit power \cite{B6}. However MIMO cannot 
+achieve all this without robust Forward Error Correction (FEC) and modem schemes. 
+\\
+\\
+This paper presents the design of a robust codec for a fading channel. The codec is to operate at a rate of at least 2 bits/Hz over a Raleigh Fading Channel. The design of the codec focuses mainly on FEC, modulation and MIMO. The codec input data input is expected to be at 10 Mbps. The design assumes that the data stream has already been converted from analog to digital, hence source encoding is neglected. Encryption is also left out as it does not affect the Bit Error Rate (BER) and spectral efficiency. The below sections present the mathematical description of the designed codec together with testing, results and analysis. All simulations and computations are carried out in MATLAB.
 \end{document}          
