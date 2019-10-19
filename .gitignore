@@ -3,6 +3,8 @@
 *.log
 *.gz
 *.toc
+*.blg
+*.bbl
 
 # Ignore Matlab temp files
 *.m~
