@@ -22,6 +22,31 @@ achieve all this without robust Forward Error Correction (FEC) and modem schemes
 \\
 This paper presents the design of a robust codec for a fading channel. The codec is to operate at a rate of at least 2 bits/Hz over a Raleigh Fading Channel. The design of the codec focuses mainly on FEC, modulation and MIMO. The codec input data input is expected to be at 10 Mbps. The design assumes that the data stream has already been converted from analog to digital, hence source encoding is neglected. Encryption is also left out as it does not affect the Bit Error Rate (BER) and spectral efficiency. The below sections present the mathematical description of the designed codec together with testing, results and analysis. All simulations and computations are carried out in MATLAB.
 
+\section{Design Overview}
+A typical digital communication system constitutes of three main components, those components being the transmitter, the channel and the receiver. Figure \ref{fig:sys} illustrates a typical communication system consisting of MIMO architecture. 
+\\
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\textwidth]{resources/systemDiagram.png}
+	\caption{System block diagram of a typical communication system with MIMO architecture}
+	\label{fig:sys}
+\end{figure}{}
+\\
+From figure \ref{fig:sys}, it can be seen that the receiver mirrors the transmitter in most of the sub-components. 
+
+\subsection{The Transmitter}
+\label{sub:trans}
+
+On the transmitter side, the source encoder takes in a raw message signal and converts it into a sequence of bits. This is done to compress the raw message data and to remove redundancy. The end result of source encoding is digital information bits with lesser bandwidth and just enough information to reconstruct the original message \cite{B10}. After source encoding, the information bits are sent to the channel encoder. The channel encoder uses FEC codes to add redundancy to the information bits. This is done to facilitate error detection and correction on the receiver side after channel transmission. The next step is modulation, the modulator takes in the coded bits from the channel encoder and maps them to a signal to be transmitted over the channel. This is done to conserve power and bandwidth. The MIMO transmitter takes in the symbols and transmits them over the channel using its multiple antennas. The MIMO transmitter uses multiple antennas to boost bandwidth and to improve signal range as mentioned earlier.
+
+\subsection{The Channel}
+The steps mentioned in section \ref{sub:trans} are taken so as to  prepare the original message to prevail in the channel and so that it is sent as efficiently as possible. The channel can be any medium, wireless or physical, into which the transmitted signal propagates. The channel distorts and adds noise to the transmitted signal, and in some instances interference occurs \cite{B10}. 
+
+\subsection{The Receiver}
+The mirrored side of of the transmitter, which is the receiver, performs the opposite of all the steps mentioned in section \ref{sub:trans} respectively. This done in order to recover the original sent message to the highest accuracy possible. 
+\\
+\\
+This paper only focuses on the part of the communication system highlighted in red on figure \ref{fig:sys}.
 %% References
 \bibliographystyle{IEEEtrans}
 \bibliography{references}
