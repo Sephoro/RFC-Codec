@@ -52,6 +52,20 @@ The mirrored side of of the transmitter, which is the receiver, performs the opp
 \\
 \\
 This paper only focuses on the part of the communication system highlighted in red on figure \ref{fig:sys}.
+
+\section{Channel Encoding}
+As mentioned earlier, transmitting data over a noisy channel often leads to the information being corrupted. To minimise the occurrence of errors during transmission the information has to somehow be protected. This protection is achieved through either the use of FEC codes or Automatic Repeat Requests (ARQ). ARQ requires retransmission of bits if they are in error. This leads to delays in communication, wasteful retransmissions that require additional power and bandwidth and also interference with other users \cite{B11}. All these make ARQ not suitable for real-time applications especially in interactive media applications \cite{51}. FEC on the other hand uses error correcting codes to correct errors that occur during transmission. It does this by adding redundant bits on the information bits, this helps to detect and correct errors as mentioned earlier. For this design FEC is chosen due to the fact that it offers improved BER, higher throughput and minimal delays compared to its counterpart \cite{51,52}.
+\\
+\\
+FEC codes are split up into two categories: Convolutional Codes and Linear Block Codes. Error correcting capability and/or performance of an FEC coding scheme is measured by its code rate $r$. The code rate represented by equation \ref{eq:1} below.
+
+\begin{equation}
+r = \frac{k}{n}
+\label{eq:1}
+\end{equation}{}
+\\
+The code rate presents the proportion of the data stream that is useful to the one that has redundancy, represented by $k$ and $n$ respectively in equation \ref{eq:1}.
+
 %% References
 \bibliographystyle{IEEEtrans}
 \bibliography{references}
