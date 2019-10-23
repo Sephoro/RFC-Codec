@@ -6,10 +6,13 @@ colorlinks=false,
 pdfborder={0 0 0},
 ]{hyperref}
 \usepackage{xcolor}
+\usepackage{enumerate}% Roman numerals
 
 \renewcommand{\thesection}{\arabic{section}}
 
 \renewcommand\bibname{References}
+
+\setcounter{secnumdepth}{3} % For ensuring subsections are numbered
 
 \begin{document}
 		\input{title_page.tex}
@@ -82,6 +85,74 @@ There exist three main types of of Linear Block Codes used in coding theory: Bos
 \\
 \\
 BCH codes form a class of cyclic codes constructed using the principles of the Galois Finite Fields. Unlike RS codes, they are able to correct multiple random errors and unlike LDPC and Turbo codes, they are relatively easier to implement and decoding is also simple \cite{20,57}. Other great advantages of this coding scheme is its flexibility of choosing the number of errors correctable by the code and its great error correcting capabilities \cite{57,58,22}.
+
+\subsubsection{BCH Encoder and Decoder}
+BCH$(n,k)$ codes are a generalisation of Hamming Code. Unlike Hamming code, BCH$(n,k)$ posses the ability to correct multiple errors. They are described mathematically as follows:
+
+\begin{center}
+\begin{minipage}[h!]{0.85\textwidth}
+  	
+  	
+  	{\it For any positive integers $m\ge3$ and $ t < 2^{m-1} $ there exists a BCH(n,k) code with the following characteristics:}
+  	
+  	\begin{equation}
+  	\label{eq:block}
+  	 \mbox{Block length: \hspace{1cm}} n = 2^{m-1}  	
+  	\end{equation}
+  	\begin{equation}
+  	\label{eq:parity}
+  	\mbox{Parity check bits: \hspace{1cm}} n -k \le mt 	
+  	\end{equation}
+  		\begin{equation}
+  	\label{eq:dmin}
+  	\mbox{Minimun distance: \hspace{1cm}} d_{min} \ge 2t + 1	
+  	\end{equation}
+
+\end{minipage}
+\end{center}
+
+A BCH$(n,k)$ code described by equations \ref{eq:block}$-$\ref{eq:dmin} is described as a $t$-error correcting BCH.
+\\
+\\
+To encode, BCH codes uses a generator polynomial $g(x)$ defined in the Galois Field GF($2^m$). The polynomial is the lowest degree polynomial over GF(2) which has $\alpha, \alpha^2,...,\alpha^{2t}$ as its roots. If $\Phi(x)_i$ is a minimal polynomial of $\alpha_i$, then $g(x)$ is given by equation \ref{eq:gx} below,
+
+\begin{equation}
+\label{eq:gx}
+	g(x) = LCM(\Phi(x)_1,\Phi(x)_3,...,\Phi(x)_{2t-1})
+\end{equation}
+\\
+A more detailed mathematical derivation of how equation \ref{eq:gx} is obtained can be found here \cite{B13}. The codeword $c(x)$ is formed by first dividing the message polynomial $m(x)$ and obtaining the remainder $r(x)$. The remainder $r(x)$ is then added to original message polynomial $m(x)$ to make the output codeword $c(x)$ as described by equation \ref{eq:rx}--\ref{eq:cx}.
+
+\begin{equation}
+\label{eq:rx}
+r(x) = mod\{m(x),g(x)\}
+\end{equation}
+\begin{equation}
+\label{eq:cx}
+c(x) = m(x) + r(x)
+\end{equation}
+\\
+To decode BCH codewords, there a four main steps that are followed:
+\begin{enumerate}[i]
+	\item Syndrome computation
+	\item Determine coefficients of the error locator polynomial. 
+	\item Find the roots of the error locator polynomial.
+	\item Correct the error
+\end{enumerate}
+The steps above are described mathematically and in more detail by \cite{59,21,EXS}. In this design BCH$(127,85)$ code with parameters described in table \ref{t:bch} is used.
+
+\begin{table}[h!]
+	\caption{BCH(127,85) paramaters}
+	\label{t:bch}
+	\begin{tabular}{|l|l|l|l|l|l|l|}
+		\hline
+		\textbf{Parameter} & m & n & k & t & r & \multicolumn{1}{c|}{$g(x)$} \\ \hline
+		\textbf{Value} & 6 & 127 & 85 & 6 & 0.67 & \begin{tabular}[c]{@{}l@{}}$1 + x + x^{3} + x^{4} + x^{5} + x^{7} + x^{10} + x^{13} + x^{15} + x^{16} + x^{19} + x^{20} +$\\ $x^{21} + x^{22} + x^{23} + x^{26} + x^{29} + x^{33} + x^{34} + x^{35} + x^{39} + x^{40} + x^{42}$\end{tabular} \\ \hline
+	\end{tabular}
+\end{table}{}
+
+From the table it can be seen that BCH$(127,85)$ has a code rate of 0.67 as per equation \ref{eq:1} and it can correct up-to 6 errors. The encoder and decoder are both implemented in MATLAB.
+ 
 %% References
 \bibliographystyle{IEEEtrans}
 \bibliography{references}
