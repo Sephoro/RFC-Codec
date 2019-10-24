@@ -250,6 +250,32 @@ S_E = \frac{1}{2}rlog_2(M)\alpha_M
 
 Using the above equation the $S_E$ with the subsystems implemented in section \ref{sec:encoding} and this section is $1.008\alpha_M$ bits/Hz. With an appropriate value of $\alpha_M$ the desired spectral efficiency can be met. The decision of 16-QAM is further supported in the results section.
 
+\section{Channel Model}
+\label{sec:channel}
+As previously mentioned a channel adds noise, distorts and attenuates information bearing signals that propagate through it, leading to corruption of data. This design focuses on the two popular channel models, Additive White Gaussian Noise (AWGN) and Rayleigh Fading Channel (RFC). 
+
+\subsection{AWGN}
+\label{sub:awgn}
+AWGN is common to every communication channel. It is a statistically random noise characterised by the effect of many random processes that occur in nature \cite{72}. The probability density function of AWGN follows a Gaussian distribution, as the name suggests. Given a sent signal $x(t)$, the received signal $r(t)$ that propagated through an AWGN channel is given by:
+
+\begin{equation}
+\label{eq:rawgn}
+r(t) = x(t) + n(t)
+\end{equation}
+
+\begin{center}
+Where $n(t)$ is AWGN noise with zero mean, $E\{n(t)\} = 0$.
+\end{center}
+
+The noise term $n(t)$ has power $N_0$, assuming that $x(t)$ has average power $E_b$ and the channel has bandwidth $W$, the $SNR$ of $r(t)$ is give by:
+
+\begin{equation}
+\label{eq:snr}
+SNR = \frac{E_b}{N_0W}
+\end{equation} 
+
+Equation \ref{eq:snr} shows that AWGN affects the SNR which in turn affects the BER.
+
 
 
 %% References
