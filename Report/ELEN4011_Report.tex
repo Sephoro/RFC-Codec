@@ -169,7 +169,12 @@ In ASK, also known as ON/OFF keying, modulation is achieved by varying the ampli
 
 \subsection{Frequency Shift Keying}
 \label{sub:fsk}
-In this scheme, information bit stream is transmitted through discrete frequency changes of the carrier signal. FSK becomes Binary FSK (BFSK), when only two discrete frequency are used to modulate. It is popularly used in caller ID and remote metering. Like BPSK, BFSK is simple to generate and simple to demodulate. However its major draw backs are its poor spectral efficiency and poor BER performance \cite{63}.
+In this scheme, information bit stream is transmitted through discrete frequency changes of the carrier signal. FSK becomes Binary FSK (BFSK), when only two discrete frequency are used to modulate. It is popularly used in caller ID and remote metering. Like BASK, BFSK is simple to generate and simple to demodulate. However its major draw backs are its poor spectral efficiency and poor BER performance \cite{63}.
+
+\subsection{Phase Shift Keying}
+\label{sub:psk}
+The PSK digital modulation scheme involves encoding the information bits to the carrier signal by varying the phase. The exist a number of popular PSK modulation schemes such as the Binary PSK (BPSK), Differential PSK (DPSK), Quadrature PSK (QPSK) and M-ary PSK (MPSK). Of the four, only the MPSK and QPSK are widely used. QPSK offers higher bandwidth efficiency compared to BASK, BFSK and BPSK, this because it can encode two bits per symbol. The only drawback is it complex antenna design \cite{60}. MPSK on the other hand offers an even better spectral efficiency and greater bandwidth compared to QPSK. This due to the increase in bits per symbol offered by M-ary modulation schemes.
+
 %% References
 \bibliographystyle{IEEEtrans}
 \bibliography{references}
