@@ -166,7 +166,10 @@ As mentioned in section \ref{sec:design}, digital modulation is performed such t
 \subsection{Amplitude Shift Keying}
 \label{sub:ask}
 In ASK, also known as ON/OFF keying, modulation is achieved by varying the amplitude of the carrier signal. The amplitude varies in accordance with the information bit stream whilst the frequency and phase are kept constant. ASK is mainly used for optical fibre and point-to-point communication \cite{B15}. Binary ASK (BASK) is when only two amplitudes are used to represent either a 1 or 0 of the information stream. BASK is simple to implement, however it has very poor bandwidth efficiency and is very susceptible to noise \cite{60}.
- 
+
+\subsection{Frequency Shift Keying}
+\label{sub:fsk}
+In this scheme, information bit stream is transmitted through discrete frequency changes of the carrier signal. FSK becomes Binary FSK (BFSK), when only two discrete frequency are used to modulate. It is popularly used in caller ID and remote metering. Like BPSK, BFSK is simple to generate and simple to demodulate. However its major draw backs are its poor spectral efficiency and poor BER performance \cite{63}.
 %% References
 \bibliographystyle{IEEEtrans}
 \bibliography{references}
