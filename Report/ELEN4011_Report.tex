@@ -145,19 +145,19 @@ To decode BCH codewords, there a four main steps that are followed:
 	\item Find the roots of the error locator polynomial.
 	\item Correct the error
 \end{enumerate}
-The steps above are described mathematically and in more detail by \cite{59,21,EXS}. In this design BCH$(127,85)$ code with parameters described in table \ref{t:bch} is used.
+The steps above are described mathematically and in more detail by \cite{59,21,EXS}. In this design BCH$(127,64)$ code with parameters described in table \ref{t:bch} is used.
 
 \begin{table}[h!]
-	\caption{BCH(127,85) paramaters}
+	\caption{BCH(127,64) paramaters}
 	\label{t:bch}
 	\begin{tabular}{|l|l|l|l|l|l|l|}
 		\hline
 		\textbf{Parameter} & m & n & k & t & r & \multicolumn{1}{c|}{$g(x)$} \\ \hline
-		\textbf{Value} & 6 & 127 & 85 & 6 & 0.67 & \begin{tabular}[c]{@{}l@{}}$1 + x + x^{3} + x^{4} + x^{5} + x^{7} + x^{10} + x^{13} + x^{15} + x^{16} + x^{19} + x^{20} +$\\ $x^{21} + x^{22} + x^{23} + x^{26} + x^{29} + x^{33} + x^{34} + x^{35} + x^{39} + x^{40} + x^{42}$\end{tabular} \\ \hline
+		\textbf{Value} & 6 & 127 & 64 & 6 & 0.50 & \begin{tabular}[c]{@{}l@{}}$1 + x + x^{3} + x^{4} + x^{5} + x^{7} + x^{10} + x^{13} + x^{15} + x^{16} + x^{19} + x^{20} +$\\ $x^{21} + x^{22} + x^{23} + x^{26} + x^{29} + x^{33} + x^{34} + x^{35} + x^{39} + x^{40} + x^{42}$\end{tabular} \\ \hline
 	\end{tabular}
 \end{table}{}
 
-From the table it can be seen that BCH$(127,85)$ has a code rate of 0.67 as per equation \ref{eq:1} and it can correct up-to 6 errors. The encoder and decoder are both implemented in MATLAB.
+From the table it can be seen that BCH$(127,64)$ has a code rate of 0.50 as per equation \ref{eq:1} and it can correct up-to 10 errors. The encoder and decoder are both implemented in MATLAB. The choice of BCH(127,64) is further supported in the results section.
 
 \newpage
 
@@ -238,7 +238,7 @@ To demodulate, QAM demodulators use a coherent demodulator as illustrated by fig
 The distorted received symbol $r(t)$ is passed on to the demodulator as illustrated by figure \ref{fig:demod}. The symbol is then passed to the I and Q channels  where it is mixed with the local generated carriers $\phi_I(t) = \sqrt{\frac{2}{T_s}}cos(2\pi f_ct)$ and  $\phi_Q(t) = \sqrt{\frac{2}{T_s}}sin(2\pi f_ct)$. The mixed outputs are the passed to the Low Pass Filter (LPF) that rejects all high frequency components. The resulting signal is a basedband one, the baseband signal is then passed to the matched filter to improve the SNR \cite{B16}. The symbol demapper is then used to decode the received symbol and match it to the nearest corresponding symbol on the MQAM constellation by calculating the relative distance of the received symbol to all the symbols on the constellation. 
 \\
 \\
-For this design 64QAM is chosen. 64 QAM is chosen because it is just high enough to give a good spectral efficiency  whilst doing minimal damage on the BER \cite{B8}. The decision is also influenced by the desired spectral efficiency of the design. Spectral efficiency is given by equation \ref{eq:se}.
+For this design 16-QAM is chosen. 16-QAM is chosen because it is just high enough to give a good spectral efficiency  whilst doing minimal damage on the BER \cite{B8}. The decision is also influenced by the desired spectral efficiency of the design. Spectral efficiency is given by equation \ref{eq:se}.
 
 \begin{equation}
 \label{eq:se}
@@ -248,7 +248,7 @@ S_E = \frac{1}{2}rlog_2(M)\alpha_M
 	Where: $M$ is the modulation order, $\alpha_M$ is the MIMO coefficient and $r$ is given by equation \ref{eq:1}.
 \end{center}
 
-Using the above equation the $S_E$ with the subsystems implemented in section \ref{sec:encoding} and this section is $2.01\alpha_M$ bits/Hz which meets the requirements so far.
+Using the above equation the $S_E$ with the subsystems implemented in section \ref{sec:encoding} and this section is $1.008\alpha_M$ bits/Hz. With an appropriate value of $\alpha_M$ the desired spectral efficiency can be met. The decision of 16-QAM is further supported in the results section.
 
 
 
