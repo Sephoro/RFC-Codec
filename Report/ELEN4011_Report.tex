@@ -205,6 +205,53 @@ From the figures \ref{fig:qampsk} it can be seen that 16-QAM has greater distanc
 \\
 QAM exploits the fact that sine and cosine of the same frequency have a $90^{\circ}$  phase shift. This allows it to send two symbols using the same frequency doubling the symbol rate without doubling the bandwidth \cite{68}. It has also been proven in literature that QAM performs better than MPSK in Rayleigh Fading Channels \cite{67,65,66}. Due to arguments raised in sections \ref{sub:ask}--\ref{sub:psk} and in this section, QAM modulation is chosen as the suitable modulation scheme for this design.
 
+\subsubsection{QAM Modulation and Demodulation}
+\label{subsub:qam}
+As previously mentioned, QAM modulates by impressing information on both the phase and amplitude. It exploits the fact that $cos(2\pi f_ct)$ and $sin(2\pi f_ct)$ are orthogonal. The modulated QAM signal takes the form:
+
+\begin{equation}
+ s(t) = A_I\sqrt{\frac{2}{T_s}}cos(2\pi f_ct) +  A_Q\sqrt{\frac{2}{T_s}}sin(2\pi f_ct) 
+\end{equation}
+
+\begin{center}
+for $0 \le t \le T_s$
+where $T_s$ is time in between symbols
+\end{center}
+
+$A_I$ and $A_Q$ are the information bearing discrete amplitude of the two quadrature carriers. Alternatively the symbol waveform can be expressed as:
+
+\begin{equation}
+s(t) = E\sqrt{\frac{2}{Ts}}cos(2\pi f_ct - \theta)
+\end{equation}
+Where $E =\sqrt{A_I^2 + A_Q^2} $ and $\theta = tan^{-1}(\frac{A_Q}{A_I})$ present the location of the symbol on the constellation, determined by the $log_2(M)$ bits to symbol mapper.
+\\
+\\
+To demodulate, QAM demodulators use a coherent demodulator as illustrated by figure \ref{fig:demod}.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=\textwidth]{resources/demod.png}
+	\caption{Coherent demodulator for QAM}
+	\label{fig:demod}
+\end{figure}
+\vspace{12pt}
+The distorted received symbol $r(t)$ is passed on to the demodulator as illustrated by figure \ref{fig:demod}. The symbol is then passed to the I and Q channels  where it is mixed with the local generated carriers $\phi_I(t) = \sqrt{\frac{2}{T_s}}cos(2\pi f_ct)$ and  $\phi_Q(t) = \sqrt{\frac{2}{T_s}}sin(2\pi f_ct)$. The mixed outputs are the passed to the Low Pass Filter (LPF) that rejects all high frequency components. The resulting signal is a basedband one, the baseband signal is then passed to the matched filter to improve the SNR \cite{B16}. The symbol demapper is then used to decode the received symbol and match it to the nearest corresponding symbol on the MQAM constellation by calculating the relative distance of the received symbol to all the symbols on the constellation. 
+\\
+\\
+For this design 64QAM is chosen. 64 QAM is chosen because it is just high enough to give a good spectral efficiency  whilst doing minimal damage on the BER \cite{B8}. The decision is also influenced by the desired spectral efficiency of the design. Spectral efficiency is given by equation \ref{eq:se}.
+
+\begin{equation}
+\label{eq:se}
+S_E = \frac{1}{2}rlog_2(M)\alpha_M
+\end{equation}
+\begin{center}
+	Where: $M$ is the modulation order, $\alpha_M$ is the MIMO coefficient and $r$ is given by equation \ref{eq:1}.
+\end{center}
+
+Using the above equation the $S_E$ with the subsystems implemented in section \ref{sec:encoding} and this section is $2.01\alpha_M$ bits/Hz which meets the requirements so far.
+
+
+
 %% References
 \bibliographystyle{IEEEtrans}
 \bibliography{references}
