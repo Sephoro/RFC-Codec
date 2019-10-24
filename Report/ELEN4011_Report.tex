@@ -7,6 +7,8 @@ pdfborder={0 0 0},
 ]{hyperref}
 \usepackage{xcolor}
 \usepackage{enumerate}% Roman numerals
+\usepackage{paracol} % For parallel colums
+\usepackage{subcaption}
 
 \renewcommand{\thesection}{\arabic{section}}
 
@@ -174,6 +176,34 @@ In this scheme, information bit stream is transmitted through discrete frequency
 \subsection{Phase Shift Keying}
 \label{sub:psk}
 The PSK digital modulation scheme involves encoding the information bits to the carrier signal by varying the phase. The exist a number of popular PSK modulation schemes such as the Binary PSK (BPSK), Differential PSK (DPSK), Quadrature PSK (QPSK) and M-ary PSK (MPSK). Of the four, only the MPSK and QPSK are widely used. QPSK offers higher bandwidth efficiency compared to BASK, BFSK and BPSK, this because it can encode two bits per symbol. The only drawback is it complex antenna design \cite{60}. MPSK on the other hand offers an even better spectral efficiency and greater bandwidth compared to QPSK. This due to the increase in bits per symbol offered by M-ary modulation schemes.
+
+\subsection{Quadrature Amplitude Modulation}
+QAM is a modulation scheme which is carried out by impressing information on the amplitude of two carrier signals. Similar to MPSK, it possesses the ability to perform high order modulations. MQAM has advantage over MPSK due to its use of both the phase and amplitude to modulate, this gives it greater distances between constellations \cite{67}, this is illustrated by figure \ref{fig:qampsk}.
+
+\begin{figure}
+	\centering
+	
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[width=0.85\textwidth]{resources/16QAM1.png}
+		\label{fig:qam}
+		\caption{Constellation of 16 QAM modulation scheme}
+	\end{subfigure}%
+	\begin{subfigure}{.5\textwidth}
+		\setcounter{figure}{2}	
+		\includegraphics[width=0.85\textwidth]{resources/16psk2.png}
+		\label{fig:mpsk}
+		\caption{Constellation of 16 PSK modulation scheme}
+	\end{subfigure}
+
+	\caption{16-Ary Modulation sheme constellations}
+	\label{fig:qampsk}
+	
+\end{figure}{}
+From the figures \ref{fig:qampsk} it can be seen that 16-QAM has greater distances between constellations compared to 16-MPSK.
+\\
+\\
+QAM exploits the fact that sine and cosine of the same frequency have a $90^{\circ}$  phase shift. This allows it to send two symbols using the same frequency doubling the symbol rate without doubling the bandwidth \cite{68}. It has also been proven in literature that QAM performs better than MPSK in Rayleigh Fading Channels \cite{67,65,66}. Due to arguments raised in sections \ref{sub:ask}--\ref{sub:psk} and in this section, QAM modulation is chosen as the suitable modulation scheme for this design.
 
 %% References
 \bibliographystyle{IEEEtrans}
