@@ -339,6 +339,17 @@ n_{N_t}
 
 Where $ \vec{r} $ is a $ N_r\times1 $ column vector of received symbols, $ \vec{H} $ is a $ N_r\times N_t $ vector of channel coefficients, $ \vec{x} $ is a $N_t\times1 $ column vector of the transmitted signals and $\vec{n}$ is also a $ N_r\times1 $ column vector of AWGN noise. There exist two main types of MIMO, Space Time Block Codes (STBC) and Spatial Multiplexing.
 
+\subsection{STBC}
+\label{sub:stbc}
+STBC is mostly used when there is no channel knowledge at the transmitter and it is mainly used for diversity gain. STBC achieves diversity gain by transmitting a number of replica of symbol streams through multiple antennas. This avails different version of the same received signal to get better reliability of the transmitted signal \cite{14}. A well known version of STBC is the Alamouti coding illustrated by figure \ref{fig:al}.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.65]{resources/al.png}
+	\caption{Flow diagram of Alamouti STBC}
+	\label{fig:al}
+\end{figure} 
+From the figure it can be observed that the two input signals $(x_1, x_2)$ are multiplexed into two chains. The signals are then copied at different times to different antennas, to make what is called delayed diversity \cite{B8}. The two transmit antennas will then transmit the Alamouti encoded signals over two periods. First the original signals $(x_1,x_2)$ will be instantaneously transmitted followed by the copies in their second period \cite{14}.  
 %% References
 \bibliographystyle{IEEEtrans}
 \bibliography{references}
