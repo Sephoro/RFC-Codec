@@ -9,10 +9,17 @@ pdfborder={0 0 0},
 \usepackage{enumerate}% Roman numerals
 \usepackage{paracol} % For parallel colums
 \usepackage{subcaption}
+\usepackage{harpoon} % For vector notation
+\usepackage{amsmath} % For matrices. And vectors?
+\usepackage{mathtools} % For vector notation again
+\usepackage{bm} % Also for vector notation again
+%\usepackage{esvect}
 
 \renewcommand{\thesection}{\arabic{section}}
 
 \renewcommand\bibname{References}
+
+\renewcommand{\vec}[1]{\mathbf{#1}} % For vector notation
 
 \setcounter{tocdepth}{4}
 \setcounter{secnumdepth}{4}
@@ -293,6 +300,44 @@ $h(t)$ is known as the channel coeffecient whilst $h_r(t)$ and $h_i(t)$ are the 
 \end{equation}
 
 Where $ h(t) $ is given by equation \ref{eq:rfc}. Equation \ref{eq:rrfc} shows that the effects of of $ h(t) $ are multiplicative. The effect of h(t) is that it randomly rotates the phase and scales the amplitude of $r(t)$\cite{73}. The channel coherence time in this design is 1ms.
+
+\section{MIMO}
+\label{sec:mimo}
+MIMO plays a great deal in mitigating the effects of fading and scattering presented in the previous section. As previously mentioned, MIMO exploits the attributes of a fading channel for diversity gain and high spectral efficiencies. This is achieved through its use of multiple transmit and receive antennas. What gives MIMO advantage over other schemes is its use of a third spatial dimension beyond frequency and time \cite{74}. Given a MIMO system with $N_t$ transmit antennas and $N_r$ receive antennas, the received signal vector $\vec{r}$ is given by :
+
+\begin{equation}
+\label{eq:mimo}
+\vec{r} = \vec{H}\vec{x} + \vec{n}
+\end{equation}
+
+\begin{equation}
+\label{eq:H}
+\begin{bmatrix}
+r_1 \\
+r_2 \\
+\vdots\\
+r_{N_r}
+\end{bmatrix}  = \begin{bmatrix}
+h_{11} & h_{12} & \cdots & h_{1N_t} \\
+h_{21} & h_{22} & \cdots & h_{2N_t} \\
+\vdots &        &  \ddots      &  \vdots  \\
+h_{N_r1}& h_{N_r2}&\cdots &h_{N_rN_t}
+\end{bmatrix}
+\begin{bmatrix}
+x_1 \\
+x_2 \\
+\vdots\\
+x_{N_t}
+\end{bmatrix} + 
+\begin{bmatrix}
+n_1 \\
+n_2 \\
+\vdots\\
+n_{N_t}
+\end{bmatrix}  
+\end{equation}
+
+Where $ \vec{r} $ is a $ N_r\times1 $ column vector of received symbols, $ \vec{H} $ is a $ N_r\times N_t $ vector of channel coefficients, $ \vec{x} $ is a $N_t\times1 $ column vector of the transmitted signals and $\vec{n}$ is also a $ N_r\times1 $ column vector of AWGN noise. There exist two main types of MIMO, Space Time Block Codes (STBC) and Spatial Multiplexing.
 
 %% References
 \bibliographystyle{IEEEtrans}
