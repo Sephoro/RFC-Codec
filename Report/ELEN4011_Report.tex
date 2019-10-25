@@ -349,7 +349,31 @@ STBC is mostly used when there is no channel knowledge at the transmitter and it
 	\caption{Flow diagram of Alamouti STBC}
 	\label{fig:al}
 \end{figure} 
-From the figure it can be observed that the two input signals $(x_1, x_2)$ are multiplexed into two chains. The signals are then copied at different times to different antennas, to make what is called delayed diversity \cite{B8}. The two transmit antennas will then transmit the Alamouti encoded signals over two periods. First the original signals $(x_1,x_2)$ will be instantaneously transmitted followed by the copies in their second period \cite{14}.  
+From the figure it can be observed that the two input signals $(x_1, x_2)$ are multiplexed into two chains. The signals are then copied at different times to different antennas, to make what is called delayed diversity \cite{B8}. The two transmit antennas will then transmit the Alamouti encoded signals over two periods. First the original signals $(x_1,x_2)$ will be instantaneously transmitted followed by the copies in their second period \cite{14}. 
+
+\subsection{Spatial Multiplexing} 
+Unlike STBC, Spatial Multiplexing is not intended to make transmission more robust, rather its prime focus is on increasing the spectral efficiency of a channel. To achieve this, Spatial Multiplexing divides data into streams, the streams are transmitted independently via separate antennas as illustrated by figure \ref{fig:sm}.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.65]{resources/sm.png}
+	\caption{Flow diagram of Alamouti STBC}
+	\label{fig:sm}
+\end{figure} 
+
+The signals in figure \ref{fig:sm} are without any change in frequency band or transmission power. In the instance presented by figure \ref{fig:sm}, the spectral efficiency is doubled without any cost. Spatial Multiplexing can be used with or without Channel State Information (CSI).
+\\
+\\
+Since the design focuses more on Spectral Efficiency and  since the CSI is known, Spatial Multiplexing is chosen as a suitable MIMO for the design. In this design a $4\times2$ Spatial Multiplexing MIMO is used. The reason for $4\times2$ is due to the fact that a higher number of antennas improves the BER. This in turn makes up for diversity in a sense.
+\\
+\\
+Going back to equation \ref{eq:se}, $\alpha_M$ is given by:
+\begin{equation}
+\label{fig:nrnt}
+\alpha_M = min(N_r,N_t)
+\end{equation}
+In the case of this design and taking all parameters in equation \ref{eq:se} into consideration, the $S_E = 2.00$ bits/Hz.
+
 %% References
 \bibliographystyle{IEEEtrans}
 \bibliography{references}
