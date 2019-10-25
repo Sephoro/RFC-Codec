@@ -407,18 +407,70 @@ MMSE generally performs better than ZF as it does not amplify noise \cite{46}. F
 \section{Simulation Results and Analysis}
 \label{sec:results}
 This section presents the results of the simulation of the system designed in sections \ref{sec:encoding}--\ref{sec:mimo}. All simulations are performed in MATLAB.
-\\
-\\
-The first set of results come from section \ref{sec:encoding}. Figure \ref{fig:uncoded} below shows the effect of channel encoding in a AWGN channel.
+
+\subsection{BER for uncoded AWGN}
+The first set of results come from section \ref{sec:encoding}. Figure \ref{fig:unc} below shows the effect of channel encoding in a AWGN channel.
 
 \begin{figure}[h!]
-	\label{fig:uncoded}
 	\centering
-	\includegraphics[scale=0.85]{resources/uncoded.png}
+	\includegraphics[scale=0.65]{resources/uncoded.png}
 	\caption{Results of channel encoding vs no channel encoding in a AWGN channel}
+    \label{fig:unc}
 \end{figure}
 \vspace{12pt}
 The results of the figure clearly illustrates the need for channel encoding, as it can be seen that the BER curve of the coded scheme performs better. This is because encoding introduces parity to protect against and to correct errors in a channel, like the AWGN, as previously mentioned in section \ref{sec:encoding}.
+\\
+\subsection{BCH and QAM}
+\label{sub:bchqam}
+As already mentioned in the Introduction, the main requirement of this project is to design a codec that has a spectral efficiency of at least 2 bits/Hz. To meet the requirements 6 different combination of BCH and QAM which satisfy the requirements, assuming an $\alpha_M$ of 2, are simulated in AWGN channel to observe the one with an efficient BER. With $\alpha_M = 2$, $S_E$ from equation \ref{eq:se} becomes $S'_E$ given by:
+
+\begin{equation}
+\label{newse}
+S'_E = rlog_2(M)
+\end{equation}
+
+The schemes together with their spectral efficiencies and other properties are shown in table \ref{t:schemes}.
+
+\begin{table}[h!]
+	\caption{BCH and QAM combinations that have $S_E  \ge 2$}
+	\label{t:schemes}
+	\begin{tabular}{|c|c|c|c|c|c|c|}
+		\hline
+		\textbf{\begin{tabular}[c]{@{}c@{}}Modu\\ lation\end{tabular}} & \multicolumn{3}{c|}{16-QAM} & \multicolumn{3}{c|}{64-QAM} \\ \hline
+		\textbf{BCH} & BCH(31,16) & BCH(63,36) & BCH(127,64) & BCH(31,11) & BCH(63,24) & BCH(127,43) \\ \hline
+		\textbf{t} & 3 & 6 & 10 & 5 & 7 & 14 \\ \hline
+		\textbf{$S'_E$} & 2.06 & 2.29 & 2.02 & 2.13 & 2.29 & 2.03 \\ \hline
+	\end{tabular}
+\end{table}
+
+All the schemes are simulated in MATLAB, figure \ref{fig:1664} illustrates the results. 
+
+\setcounter{figure}{6} 
+\begin{figure}
+	\centering
+	
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{resources/bch64QAM.png}
+		%\label{fig:64BCH}
+		\caption{BER performance of 64-QAM with BCH}
+	\end{subfigure}%
+	\begin{subfigure}{.5\textwidth}	
+		\includegraphics[width=\textwidth]{resources/bch16QAM.png}
+		%\label{fig:16BCH}
+		\caption{BER performance of 16-QAM with BCH}
+	\end{subfigure}
+	
+	\caption{BCH and QAM combinations that have $S_E  \ge 2$}
+	\label{fig:1664}
+	
+\end{figure}{}
+\vspace{12pt}
+From figure \ref{fig:1664} it can be seen that the combinations with 16-QAM perform better than those with 64-QAM even though 64-QAM combinations have higher error correcting BCH as per table \ref{t:schemes}. This goes to show that modulation plays a great role in BER compared to encoding. The 16-QAM constellations have a greater distance between them compared to those of 64-QAM, this implies that less demodulation errors are made in 16-QAM compared to 64-QAM even though it has BCH schemes that have greater error correcting capabilities.
+\\
+\\
+Within 16-QAM BCH(127,64) performed better than all the BCH schemes. This is because BCH(127,64) has higher error correcting capabilities compared to all the BCH schemes in 16-QAM as per table \ref{t:schemes}. All these results influenced the decisions made in section \ref{sec:encoding} and section \ref{sec:modem} for the type of BCH and the modulation order respectively.
+ 
 %% References
 \bibliographystyle{IEEEtrans}
 \bibliography{references}
