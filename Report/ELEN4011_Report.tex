@@ -374,6 +374,10 @@ Going back to equation \ref{eq:se}, $\alpha_M$ is given by:
 \end{equation}
 In the case of this design and taking all parameters in equation \ref{eq:se} into consideration, the $S_E = 2.00$ bits/Hz.
 
+\subsection{MIMO Receivers}
+\label{sub:rec}
+The receive antennas of a MIMO system receive mixed multiple signals, that are rotated in phase and scaled in amplitude as previously mentioned in section \ref{sub:rfc}. A way of separating and reversing the channel coeffecients is through finding the inverse of the channel coeffecients matrix $\vec{H}$ \cite{37}. MIMO receivers have the ability to separate and equalise the received signal that is distorted by the RFC. There exist two popular MIMO receivers; The Zero Forcing (ZF) receiver and Minimum Mean Square Error (MMSE). Both of these receivers use what is called a pseudo-inverse to reverse the effect of the RFC channel.  
+
 %% References
 \bibliographystyle{IEEEtrans}
 \bibliography{references}
