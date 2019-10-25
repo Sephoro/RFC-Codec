@@ -378,6 +378,15 @@ In the case of this design and taking all parameters in equation \ref{eq:se} int
 \label{sub:rec}
 The receive antennas of a MIMO system receive mixed multiple signals, that are rotated in phase and scaled in amplitude as previously mentioned in section \ref{sub:rfc}. A way of separating and reversing the channel coeffecients is through finding the inverse of the channel coeffecients matrix $\vec{H}$ \cite{37}. MIMO receivers have the ability to separate and equalise the received signal that is distorted by the RFC. There exist two popular MIMO receivers; The Zero Forcing (ZF) receiver and Minimum Mean Square Error (MMSE). Both of these receivers use what is called a pseudo-inverse to reverse the effect of the RFC channel.  
 
+\subsubsection{The ZF Receiver}
+\label{subsub:zf}
+The ZF receiver applies the pseudo-inverse of the channel coeffecient matrix $\vec{W}$ to the received signal $\vec{r}$ to restore the transmitted signal $\vec{x}$. ZF brings the ISI to zero in a noise free case. It is most effective when the ISI is greater compared to the noise \cite{46}. The pseudo-inverse of the matrix $\vec{H}$  by ZF is given by:
+\begin{equation}
+\label{eq:zf}
+\vec{W} = (\vec{H}^H\vec{H})^{-1}\vec{H}^H
+\end{equation}
+
+Despite its simple form, the ZF receiver amplifies noise, increasing the BER.
 %% References
 \bibliographystyle{IEEEtrans}
 \bibliography{references}
