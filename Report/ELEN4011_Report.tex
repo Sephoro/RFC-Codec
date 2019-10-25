@@ -403,6 +403,22 @@ MMSE generally performs better than ZF as it does not amplify noise \cite{46}. F
 	\label{eq:rec}
 	\vec{\hat{x}} = \vec{W}\vec{r}
 \end{equation}
+
+\section{Simulation Results and Analysis}
+\label{sec:results}
+This section presents the results of the simulation of the system designed in sections \ref{sec:encoding}--\ref{sec:mimo}. All simulations are performed in MATLAB.
+\\
+\\
+The first set of results come from section \ref{sec:encoding}. Figure \ref{fig:uncoded} below shows the effect of channel encoding in a AWGN channel.
+
+\begin{figure}[h!]
+	\label{fig:uncoded}
+	\centering
+	\includegraphics[scale=0.85]{resources/uncoded.png}
+	\caption{Results of channel encoding vs no channel encoding in a AWGN channel}
+\end{figure}
+\vspace{12pt}
+The results of the figure clearly illustrates the need for channel encoding, as it can be seen that the BER curve of the coded scheme performs better. This is because encoding introduces parity to protect against and to correct errors in a channel, like the AWGN, as previously mentioned in section \ref{sec:encoding}.
 %% References
 \bibliographystyle{IEEEtrans}
 \bibliography{references}
