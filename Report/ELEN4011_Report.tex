@@ -13,7 +13,7 @@ pdfborder={0 0 0},
 \usepackage{amsmath} % For matrices. And vectors?
 \usepackage{mathtools} % For vector notation again
 \usepackage{bm} % Also for vector notation again
-%\usepackage{esvect}
+\usepackage[title]{appendix}
 
 \renewcommand{\thesection}{\arabic{section}}
 
@@ -474,8 +474,26 @@ Within 16-QAM BCH(127,64) performed better than all the BCH schemes. This is bec
 %% References
 \bibliographystyle{IEEEtrans}
 \bibliography{references}
-
-
+\newpage
+\begin{appendices}
+	
+	\section*{Appendix A}
+	
+	\subsection*{Brief Overview}
+	A codec is a device or computer program that encodes or decodes a digital data stream or signal. The function of a codec is to make communication networks more faster and efficient. A codec seeks to make communication between devices faster and less prone to errors. A Rayleigh fading channel on the other hand is a representation of the journey information takes especially in urban areas. The information signals are reflected and refracted by buildings causing them to loose energy and fade. Normal codecs struggle in Rayleigh Fading channels due to its nature, they lead to poor performances, poor download speeds,  poor reliability, more dropped calls, failed downloads and lagging stream. The solution to all these problems is Multiple Input Multiple Output (MIMO). MIMO takes advantage of the reflection and refraction of information signals by using multiple antennas to send and receive information. By using multiple antennas MIMO allows more users to connect to a specific network. A MIMO communication system is also faster compared to a normal one. Some wifi and 4G networks are already using MIMO to make communication easier and swifter.
+	
+	
+	\subsubsection*{Social Impacts}
+	Communication networks have since allowed humans to have better interaction, bringing people together even though they are thousands of miles apart. MIMO allows more people to connect to a network, this means people can communicate and connect effectively with less dropped calls and less latency in video calls or video streams. Higher download speads also mean people can get faster access to information. Hacking and information privacy are issues of the modern age. MIMO minimizes the chances of one being hacked due to its multiple transmit antennas to send information.
+	
+	\subsubsection*{Economic Impacts}
+	A lot of developing countries do not have proper network infrastructure, this is mainly due costs \cite{acm}. MIMO is cost effective to implement compared to other communication channels. Due to its increase in range, fewer base stations could be built saving governments and businesses money \cite{50}. With the increased rand and speeds, more learners could also connect , to learn and research effectively improving the pass rate and boosting the economy. More entrepreneurs such as web developers, youtube bloggers and Instagram influencers will emerge. 
+	
+	
+	\subsubsection*{Environmental Impacts}
+	Due to to an increased ranges as mentioned earlier, there will be less base stations per area meaning less power consumption from base stations by MIMO base stations. MIMO networks also use less radio-transmission power so there is less battery drainage on portable devices such as cellphone \cite{50}. All this means MIMO will have lesser carbon foot print compared to other systems. However, the implementation of MIMO may cause e-waste as some of the old infrastructure might have to be removed. On the long term, MIMO will have a positive environment compared to other systems.
+	
+	\end{appendices}
 
 
 \end{document}          
