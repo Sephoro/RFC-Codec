@@ -276,7 +276,23 @@ SNR = \frac{E_b}{N_0W}
 
 Equation \ref{eq:snr} shows that AWGN affects the SNR which in turn affects the BER.
 
+\subsection{Rayleigh Fading Channel}
+\label{sub:rfc}
+The RFC models the effect of propagation environment on an information bearing signal. The environment causes reflections and refraction leading to multipath and fading. The multipath then leads to intersymbol interference (ISI). In this design a RFC is modelled using the equation \ref{eq:rfc} below:
 
+\begin{equation}
+  \label{eq:rfc}
+  h(t) = h_r(t) + jh_i(t)
+\end{equation}
+
+$h(t)$ is known as the channel coeffecient whilst $h_r(t)$ and $h_i(t)$ are the real and imaginary samples of a zero mean stationery Gaussian random process with variance $\sigma^2$ \cite{34}. The received signal $r(t)$ that passes through a RFC with AWGN is given by:
+
+\begin{equation}
+	\label{eq:rrfc}
+	r(t) = h(t)x(t) + n(t)
+\end{equation}
+
+Where $ h(t) $ is given by equation \ref{eq:rfc}. Equation \ref{eq:rrfc} shows that the effects of of $ h(t) $ are multiplicative. The effect of h(t) is that it randomly rotates the phase and scales the amplitude of $r(t)$\cite{73}. The channel coherence time in this design is 1ms.
 
 %% References
 \bibliographystyle{IEEEtrans}
