@@ -351,7 +351,8 @@ STBC is mostly used when there is no channel knowledge at the transmitter and it
 \end{figure} 
 From the figure it can be observed that the two input signals $(x_1, x_2)$ are multiplexed into two chains. The signals are then copied at different times to different antennas, to make what is called delayed diversity \cite{B8}. The two transmit antennas will then transmit the Alamouti encoded signals over two periods. First the original signals $(x_1,x_2)$ will be instantaneously transmitted followed by the copies in their second period \cite{14}. 
 
-\subsection{Spatial Multiplexing} 
+\subsection{Spatial Multiplexing}
+\label{sub:sm}
 Unlike STBC, Spatial Multiplexing is not intended to make transmission more robust, rather its prime focus is on increasing the spectral efficiency of a channel. To achieve this, Spatial Multiplexing divides data into streams, the streams are transmitted independently via separate antennas as illustrated by figure \ref{fig:sm}.
 
 \begin{figure}[h!]
@@ -389,6 +390,7 @@ The ZF receiver applies the pseudo-inverse of the channel coeffecient matrix $\v
 Despite its simple form, the ZF receiver amplifies noise, increasing the BER.
 
 \subsubsection{The MMSE Receiver}
+\label{subsub:mmse}
 To minimise the ISI and additive noise, MMSE detects the transmitted signal through minimising the mean squared error \cite{B9}. The pseudo-inverse of the matrix $\vec{H}$ by MMSE is given by:
 
 \begin{equation}
@@ -470,7 +472,18 @@ From figure \ref{fig:1664} it can be seen that the combinations with 16-QAM perf
 \\
 \\
 Within 16-QAM BCH(127,64) performed better than all the BCH schemes. This is because BCH(127,64) has higher error correcting capabilities compared to all the BCH schemes in 16-QAM as per table \ref{t:schemes}. All these results influenced the decisions made in section \ref{sec:encoding} and section \ref{sec:modem} for the type of BCH and the modulation order respectively.
- 
+
+\subsection{MIMO and Antenna Configuration}
+This subsection presents the results for MIMO in Rayleigh Fading Channel. For MIMO and RFC two antenna configurations are simulated with the chosen channel encoding of BCH(127,64) and modulation of 16-QAM. The two antenna configurations are $2\times2$ and $4\times2$. To reverse the effect of the channel coeffecient $\vec{H}$, MMSE is used as discussed in the earlier section. Figure \ref{fig:anten} below illustrates the results for the different configurations.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=1]{resources/twotwoV2.png}
+	\caption{BER for different antenna configurations in RFC}
+	\label{fig:anten}
+\end{figure}
+From  figure \ref{fig:anten} it can be seen that a MIMO system with four receive antennas performs better than one with two receive antennas. This is because more antennas increase diversity and in turn improves the BER. This explains the decision made in section \ref{sub:sm}.
+
 %% References
 \bibliographystyle{IEEEtrans}
 \bibliography{references}
