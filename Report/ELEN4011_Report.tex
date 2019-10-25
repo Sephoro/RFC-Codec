@@ -27,6 +27,7 @@ pdfborder={0 0 0},
 \begin{document}
 		\input{title_page.tex}
 \begin{abstract}
+This paper presents the design of a robust codec for fading channel. The codec use BCH(127,64) for channel encoding, 16-QAM for modulation and a $4\times2$ Spatial Multiplexing MIMO antenna configuration. At the receiver of the MIMO architecture a MMSE receiver is used to equalise and sum the received distorted signals. The results show that modulation schemes greatly affect BER performance, they also show that more antennas improve diversity. Overall the codec achieved a spectral efficiency of 2.00 bits/Hz which meets the design requirements.  
 \end{abstract}
 
 \tableofcontents
@@ -496,7 +497,20 @@ The final MIMO codec system designed for a Rayleigh Fading Channel is a $4\times
 
 From figure \ref{fig:final} it can be seen that the codec performs better than the pure AWGN coded channel.
 
+\section{Future Recommendations}
+In future the system could use Convolutional codes concatenated with RS codes for FEC. In this configuration, Convolutional codes do most of the work, whilst Reed Solomon cleans whatever is left behind. Exploration into using the Maximum Likelyhood (ML) receiver could also be taken into consideration. Literature has proven ML to perform better than MMSE and ZF in retrieving transmitted signals.
 
+\section{Environmental, Social and Economic Impacts} 
+The proposed solution promises to use less power and therefore will have a lower carbon footprint on the environment. Because of increased signal range less basestations will need to be setup, saving power used per basestation and further reducing the carbon footprint.
+\\
+\\
+MIMO also promises more robust privacy compared to other system. Since the information is carried in multiple waves hackers will not know which to attack, making it less prone to hacking. 
+\\
+\\
+Since data is expensive, MIMO promises cheaper infrastructure. This may lead to cheaper data bundle prices, making the internet available to the less privileged. This will also stimulate a spirit of entrepreneurship in online markets and also stimulate growth of small enterprises onto the online market. All this leads to an increased GDP.
+
+\section{Conclusion}
+This paper presented the design of a robust codec for fading channel. The codec use BCH(127,64) for channel encoding, 16-QAM for modulation and a $4\times2$ Spatial Multiplexing MIMO antenna configuration. At the receiver of the MIMO architecture a MMSE receiver is used to equalise and sum the received distorted signals. The results show that modulation schemes greatly affect BER performance, they also show that more antennas improve diversity. Overall the codec achieved a spectral efficiency of 2.00 bits/Hz which meets the design requirements.  
 %% References
 \bibliographystyle{IEEEtrans}
 \bibliography{references}
