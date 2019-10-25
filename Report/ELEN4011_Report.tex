@@ -387,6 +387,22 @@ The ZF receiver applies the pseudo-inverse of the channel coeffecient matrix $\v
 \end{equation}
 
 Despite its simple form, the ZF receiver amplifies noise, increasing the BER.
+
+\subsubsection{The MMSE Receiver}
+To minimise the ISI and additive noise, MMSE detects the transmitted signal through minimising the mean squared error \cite{B9}. The pseudo-inverse of the matrix $\vec{H}$ by MMSE is given by:
+
+\begin{equation}
+\label{eq:mmse}
+\vec{W} = [\vec{H}^H\vec{H} + N_0\vec{I}]^{-1}\vec{H}^H
+\end{equation}
+\\
+\\
+MMSE generally performs better than ZF as it does not amplify noise \cite{46}. For this reason it is chosen as the receiver for this design. Therefore at the receiver the transmitted signal is recovered using equation \ref{eq:rec}:
+
+\begin{equation}
+	\label{eq:rec}
+	\vec{\hat{x}} = \vec{W}\vec{r}
+\end{equation}
 %% References
 \bibliographystyle{IEEEtrans}
 \bibliography{references}
