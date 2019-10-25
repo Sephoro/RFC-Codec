@@ -483,6 +483,19 @@ This subsection presents the results for MIMO in Rayleigh Fading Channel. For MI
 	\label{fig:anten}
 \end{figure}
 From  figure \ref{fig:anten} it can be seen that a MIMO system with four receive antennas performs better than one with two receive antennas. This is because more antennas increase diversity and in turn improves the BER. This explains the decision made in section \ref{sub:sm}.
+\\
+\\
+The final MIMO codec system designed for a Rayleigh Fading Channel is a $4\times 2$ MMSE receiver 16-QAM BCH(127,64) codec. The codec has spectral efficiency of 2.00 bits/Hz as per equation \ref{eq:se}. The final codec, compared with AWGN, is illustrated by figure \ref{fig:final}.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=1]{resources/fourtwoV1.png}
+	\caption{BER for RFC performance of the final codec with $S_E$ = 2.00 bits/Hz vs BER in AWGN for no RFC and MIMO}
+	\label{fig:final}
+\end{figure}
+
+From figure \ref{fig:final} it can be seen that the codec performs better than the pure AWGN coded channel.
+
 
 %% References
 \bibliographystyle{IEEEtrans}
